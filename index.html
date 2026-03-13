@@ -181,7 +181,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged }
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import { getFirestore, doc, getDoc, setDoc }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -209,6 +209,9 @@
   let people = [], gastos = [], currentUser = null, catActual = null, tabActual = 'personas';
   let estadoPart = {};
 
+  // Detectar Safari
+  const esSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
   async function cargar(cat) {
     try {
       const snap = await getDoc(doc(db, 'usuarios', currentUser.uid, 'categorias', cat));
@@ -235,14 +238,14 @@
     people.forEach(p => estadoPart[p.id] = true);
   }
 
-  // ── AUTH: soporta redirect (Safari) y popup (Chrome/desktop) ──
+  // ── AUTH ──
   onAuthStateChanged(auth, async u => {
     if (u) {
       currentUser = u;
       catActual = null;
       renderCategorias();
     } else {
-      // Intentar recuperar resultado de redirect (Safari)
+      // Intentar recuperar sesión de redirect (para navegadores que no son Safari)
       try {
         const result = await getRedirectResult(auth);
         if (result && result.user) {
@@ -251,16 +254,23 @@
           renderCategorias();
           return;
         }
-      } catch(e) {
-        console.error('Redirect error:', e);
-      }
+      } catch(e) {}
       document.body.className = 'default';
       renderLogin();
     }
   });
 
-  const loginGoogle = () => signInWithRedirect(auth, new GoogleAuthProvider());
-  const salir       = () => signOut(auth);
+  // Safari usa popup, el resto usa redirect
+  const loginGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    if (esSafari) {
+      signInWithPopup(auth, provider).catch(e => alert('Error: ' + e.message));
+    } else {
+      signInWithRedirect(auth, provider);
+    }
+  };
+
+  const salir        = () => signOut(auth);
   const mostrarBadge = () => { const b = document.getElementById('savedBadge'); b.classList.add('show'); setTimeout(() => b.classList.remove('show'), 2000); };
 
   function elegirCat(cat) {
@@ -555,7 +565,6 @@
     document.getElementById('btnLogout').onclick = salir;
     document.getElementById('btnReset')?.addEventListener('click', resetearTodo);
     document.querySelectorAll('.tab-btn').forEach(b => b.onclick = () => { tabActual=b.dataset.tab; renderApp(); });
-
     document.getElementById('btnAgregarPersona')?.addEventListener('click', agregarPersona);
     document.getElementById('inputNombre')?.addEventListener('keydown', e => { if(e.key==='Enter') agregarPersona(); });
     document.querySelectorAll('.delete-btn[data-id]').forEach(b => b.onclick = () => eliminarPersona(Number(b.dataset.id)));
@@ -570,10 +579,8 @@
         r.readAsDataURL(file);
       };
     });
-
     document.getElementById('btnAgregarGasto')?.addEventListener('click', agregarGasto);
     document.querySelectorAll('.delete-btn[data-gasto-id]').forEach(b => b.onclick = () => eliminarGasto(Number(b.dataset.gastoId)));
-
     document.querySelectorAll('.participante-check').forEach(btn => {
       btn.addEventListener('click', () => {
         const pid = Number(btn.dataset.pid);
