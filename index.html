@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dividir Gastos</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf6ec;
+    --card: #fff;
+    --accent: #ff6b6b;
+    --accent2: #ffd93d;
+    --accent3: #6bcb77;
+    --accent4: #4d96ff;
+    --text: #2d2d2d;
+    --muted: #999;
+    --shadow: 0 8px 32px rgba(0,0,0,0.10);
+    --radius: 20px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    color: var(--text);
+    padding: 30px 20px 60px;
+    background-image: radial-gradient(circle at 10% 20%, #ffe0e0 0%, transparent 40%),
+                      radial-gradient(circle at 90% 80%, #d0f0ff 0%, transparent 40%);
+  }
+
+  h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.6rem;
+    text-align: center;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    text-shadow: 3px 3px 0 #ffd93d;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 36px;
+    font-weight: 600;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; }
+
+  .top-panel {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px 32px;
+    margin-bottom: 30px;
+    border: 3px solid var(--accent2);
+  }
+
+  .top-panel h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 140px;
+  }
+
+  label {
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+  }
+
+  input[type="text"], input[type="number"] {
+    padding: 11px 14px;
+    border: 2.5px solid #e8e8e8;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    outline: none;
+    transition: border-color 0.2s;
+    background: #fafafa;
+    color: var(--text);
+  }
+
+  input[type="text"]:focus, input[type="number"]:focus {
+    border-color: var(--accent4);
+    background: #fff;
+  }
+
+  .btn {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.13); }
+  .btn:active { transform: translateY(0); }
+  .btn-primary { background: var(--accent4); color: #fff; }
+  .btn-danger  { background: var(--accent);  color: #fff; }
+
+  .total-box {
+    background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 22px 32px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 8px 24px rgba(255,107,107,0.35);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .total-box .label { font-family: 'Fredoka One', cursive; font-size: 1.1rem; opacity: 0.9; }
+  .total-box .amount { font-family: 'Fredoka One', cursive; font-size: 2.4rem; }
+  .total-box .per-person { font-size: 0.9rem; opacity: 0.85; font-weight: 700; }
+
+  .people-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 22px;
+    margin-bottom: 30px;
+  }
+
+  .person-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 22px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    border: 3px solid transparent;
+    transition: border-color 0.2s, transform 0.2s;
+    animation: popIn 0.35s cubic-bezier(.175,.885,.32,1.275);
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  .person-card:hover { transform: translateY(-4px); border-color: var(--accent2); }
+
+  .avatar-wrap {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--accent2);
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: border-color 0.2s;
+  }
+
+  .avatar-wrap:hover { border-color: var(--accent4); }
+
+  .avatar-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(0) contrast(1.1) brightness(1.05);
+    mix-blend-mode: multiply;
+  }
+
+  .avatar-default { width: 80px; height: 80px; }
+
+  .avatar-hint {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(0,0,0,0.45);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-align: center;
+    padding: 4px 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border-radius: 0 0 50px 50px;
+  }
+
+  .avatar-wrap:hover .avatar-hint { opacity: 1; }
+  .hidden-input { display: none; }
+
+  .person-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    color: var(--text);
+    text-align: center;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 2px 6px;
+    transition: background 0.15s;
+  }
+  .person-name:hover { background: #fff5f5; }
+
+  .person-amount {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent4);
+    font-family: 'Fredoka One', cursive;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 2px 8px;
+    transition: background 0.15s;
+  }
+  .person-amount:hover { background: #f0f7ff; }
+
+  .person-extra {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .delete-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: #ffe0e0;
+    border: none;
+    border-radius: 50%;
+    width: 26px; height: 26px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    color: var(--accent);
+    font-weight: 800;
+    transition: background 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .delete-btn:hover { background: var(--accent); color: #fff; }
+
+  .color-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .empty-state .emoji { font-size: 3rem; display: block; margin-bottom: 10px; }
+
+  .summary-box {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px 32px;
+    border: 3px solid var(--accent3);
+  }
+  .summary-box h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+    color: var(--text);
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 2px dashed #f0f0f0;
+    font-weight: 700;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-name { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+  .summary-val  { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--accent4); }
+
+  .saved-badge {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: var(--accent3);
+    color: #fff;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 16px rgba(107,203,119,0.4);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+  }
+  .saved-badge.show { opacity: 1; transform: translateY(0); }
+
+  .reset-btn-wrap {
+    text-align: center;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 2rem; }
+    .top-panel { padding: 20px; }
+    .total-box { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>💸 Dividir Gastos</h1>
+  <p class="subtitle">Agregá personas, subí fotos y dividí fácil</p>
+
+  <div class="top-panel">
+    <h2>➕ Agregar persona y gasto</h2>
+    <div class="input-row">
+      <div class="input-group">
+        <label>Nombre</label>
+        <input type="text" id="inputNombre" placeholder="Ej: Martín" />
+      </div>
+      <div class="input-group" style="max-width:180px">
+        <label>Lo que gastó ($)</label>
+        <input type="number" id="inputMonto" placeholder="0.00" min="0" step="0.01" />
+      </div>
+      <button class="btn btn-primary" onclick="agregarPersona()">Agregar</button>
+    </div>
+  </div>
+
+  <div class="total-box" id="totalBox" style="display:none">
+    <div>
+      <div class="label">Total gastado</div>
+      <div class="per-person" id="perPersonLabel"></div>
+    </div>
+    <div class="amount" id="totalAmount">$0</div>
+  </div>
+
+  <div class="people-grid" id="peopleGrid">
+    <div class="empty-state">
+      <span class="emoji">🙈</span>
+      Todavía no hay nadie. ¡Agregá la primera persona!
+    </div>
+  </div>
+
+  <div class="summary-box" id="summaryBox" style="display:none">
+    <h2>📋 Resumen</h2>
+    <div id="summaryList"></div>
+  </div>
+
+  <div class="reset-btn-wrap" id="resetWrap" style="display:none">
+    <button class="btn btn-danger" onclick="resetearTodo()">🗑️ Borrar todo y empezar de cero</button>
+  </div>
+</div>
+
+<div class="saved-badge" id="savedBadge">✅ Guardado</div>
+
+<script>
+  const COLORS = ['#4d96ff','#ff6b6b','#6bcb77','#ffd93d','#c77dff','#ff9f43','#48dbfb','#ff6eb4'];
+  const STORAGE_KEY = 'gastos_app_data';
+  let people = [];
+
+  // ── GUARDAR Y CARGAR ──────────────────────────────
+  function guardar() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(people));
+    mostrarBadge();
+  }
+
+  function cargarDatos() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      try { people = JSON.parse(raw); } catch(e) { people = []; }
+    }
+    renderAll();
+  }
+
+  function mostrarBadge() {
+    const badge = document.getElementById('savedBadge');
+    badge.classList.add('show');
+    setTimeout(() => badge.classList.remove('show'), 2000);
+  }
+
+  function resetearTodo() {
+    if (!confirm('¿Seguro que querés borrar todo y empezar de cero?')) return;
+    people = [];
+    localStorage.removeItem(STORAGE_KEY);
+    renderAll();
+  }
+
+  // ── LÓGICA ────────────────────────────────────────
+  function agregarPersona() {
+    const nombre = document.getElementById('inputNombre').value.trim();
+    const monto  = parseFloat(document.getElementById('inputMonto').value) || 0;
+    if (!nombre) { alert('¡Escribí un nombre!'); return; }
+    people.push({ id: Date.now(), nombre, monto, foto: null, color: COLORS[people.length % COLORS.length] });
+    document.getElementById('inputNombre').value = '';
+    document.getElementById('inputMonto').value  = '';
+    guardar();
+    renderAll();
+  }
+
+  function eliminarPersona(id) {
+    people = people.filter(p => p.id !== id);
+    guardar();
+    renderAll();
+  }
+
+  function abrirFoto(id) {
+    document.getElementById('file-' + id).click();
+  }
+
+  function cargarFoto(id, input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const p = people.find(x => x.id === id);
+      if (p) { p.foto = e.target.result; guardar(); renderAll(); }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function editarMonto(id, el) {
+    if (el.querySelector('input')) return;
+    const p = people.find(x => x.id === id);
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.value = p.monto;
+    input.min = '0';
+    input.step = '0.01';
+    input.style.cssText = 'width:110px;padding:6px 10px;border:2.5px solid var(--accent4);border-radius:10px;font-family:Fredoka One,cursive;font-size:1.1rem;color:var(--accent4);text-align:center;outline:none;background:#f0f7ff;';
+    el.innerHTML = '';
+    el.appendChild(input);
+    input.focus();
+    input.select();
+    const confirmar = () => {
+      const nuevo = parseFloat(input.value);
+      if (!isNaN(nuevo) && nuevo >= 0) p.monto = nuevo;
+      guardar();
+      renderAll();
+    };
+    input.addEventListener('blur', confirmar);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); confirmar(); }
+      if (e.key === 'Escape') renderAll();
+    });
+  }
+
+  function editarNombre(id, el) {
+    if (el.querySelector('input')) return;
+    const p = people.find(x => x.id === id);
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = p.nombre;
+    input.style.cssText = 'width:130px;padding:6px 10px;border:2.5px solid var(--accent);border-radius:10px;font-family:Fredoka One,cursive;font-size:1rem;color:var(--text);text-align:center;outline:none;background:#fff5f5;';
+    el.innerHTML = '';
+    el.appendChild(input);
+    input.focus();
+    input.select();
+    const confirmar = () => {
+      const nuevo = input.value.trim();
+      if (nuevo) p.nombre = nuevo;
+      guardar();
+      renderAll();
+    };
+    input.addEventListener('blur', confirmar);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); confirmar(); }
+      if (e.key === 'Escape') renderAll();
+    });
+  }
+
+  function svgCaricatura(color) {
+    return `
+    <svg class="avatar-default" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="95" rx="28" ry="6" fill="rgba(0,0,0,0.08)"/>
+      <rect x="30" y="68" width="40" height="30" rx="14" fill="${color}" opacity="0.85"/>
+      <rect x="43" y="60" width="14" height="14" rx="5" fill="#ffcba4"/>
+      <ellipse cx="50" cy="48" rx="24" ry="26" fill="#ffcba4"/>
+      <ellipse cx="26" cy="48" rx="5" ry="7" fill="#ffcba4"/>
+      <ellipse cx="74" cy="48" rx="5" ry="7" fill="#ffcba4"/>
+      <ellipse cx="50" cy="24" rx="22" ry="12" fill="${color}"/>
+      <rect x="28" y="24" width="44" height="10" fill="${color}"/>
+      <ellipse cx="41" cy="46" rx="5" ry="6" fill="white"/>
+      <ellipse cx="59" cy="46" rx="5" ry="6" fill="white"/>
+      <circle cx="42" cy="47" r="3" fill="#333"/>
+      <circle cx="60" cy="47" r="3" fill="#333"/>
+      <circle cx="43" cy="46" r="1" fill="white"/>
+      <circle cx="61" cy="46" r="1" fill="white"/>
+      <ellipse cx="50" cy="54" rx="3" ry="2" fill="#e8a87c"/>
+      <path d="M42 60 Q50 67 58 60" stroke="#c96a2e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="37" cy="57" rx="5" ry="3" fill="#ffb3b3" opacity="0.5"/>
+      <ellipse cx="63" cy="57" rx="5" ry="3" fill="#ffb3b3" opacity="0.5"/>
+    </svg>`;
+  }
+
+  function formatMoney(n) {
+    return '$' + n.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function renderAll() {
+    const grid       = document.getElementById('peopleGrid');
+    const totalBox   = document.getElementById('totalBox');
+    const summaryBox = document.getElementById('summaryBox');
+    const resetWrap  = document.getElementById('resetWrap');
+
+    const total     = people.reduce((s, p) => s + p.monto, 0);
+    const porPerson = people.length ? total / people.length : 0;
+
+    if (people.length > 0) {
+      totalBox.style.display = 'flex';
+      resetWrap.style.display = 'block';
+      document.getElementById('totalAmount').textContent = formatMoney(total);
+      document.getElementById('perPersonLabel').textContent =
+        people.length > 1 ? `Corresponde ${formatMoney(porPerson)} por persona` : '1 persona';
+    } else {
+      totalBox.style.display = 'none';
+      resetWrap.style.display = 'none';
+    }
+
+    grid.innerHTML = '';
+
+    if (people.length === 0) {
+      grid.innerHTML = `<div class="empty-state"><span class="emoji">🙈</span>Todavía no hay nadie. ¡Agregá la primera persona!</div>`;
+      summaryBox.style.display = 'none';
+      return;
+    }
+
+    people.forEach(p => {
+      const diferencia = p.monto - porPerson;
+      const difLabel = diferencia > 0
+        ? `<span style="color:var(--accent3)">Pone de más: ${formatMoney(diferencia)}</span>`
+        : diferencia < 0
+        ? `<span style="color:var(--accent)">Le falta: ${formatMoney(Math.abs(diferencia))}</span>`
+        : `<span style="color:var(--muted)">Está justo ✓</span>`;
+
+      const avatarContent = p.foto
+        ? `<img src="${p.foto}" alt="${p.nombre}">`
+        : svgCaricatura(p.color);
+
+      const card = document.createElement('div');
+      card.className = 'person-card';
+      card.innerHTML = `
+        <button class="delete-btn" onclick="eliminarPersona(${p.id})">✕</button>
+        <div class="avatar-wrap" onclick="abrirFoto(${p.id})" title="Clic para subir foto">
+          ${avatarContent}
+          <div class="avatar-hint">📷 Subir foto</div>
+        </div>
+        <input type="file" id="file-${p.id}" class="hidden-input" accept="image/*"
+               onchange="cargarFoto(${p.id}, this)">
+        <div class="person-name" onclick="editarNombre(${p.id}, this)" title="Clic para editar nombre">
+          ${p.nombre} ✏️
+        </div>
+        <div class="person-amount" onclick="editarMonto(${p.id}, this)" title="Clic para editar monto">
+          ${formatMoney(p.monto)} ✏️
+        </div>
+        <div class="person-extra">${difLabel}</div>
+      `;
+      grid.appendChild(card);
+    });
+
+    summaryBox.style.display = 'block';
+    const list = document.getElementById('summaryList');
+    list.innerHTML = people.map(p => {
+      const dif = p.monto - porPerson;
+      const accion = dif > 0
+        ? `le deben ${formatMoney(dif)}`
+        : dif < 0
+        ? `debe ${formatMoney(Math.abs(dif))}`
+        : `está al día ✓`;
+      return `
+        <div class="summary-row">
+          <div class="summary-name">
+            <span class="color-dot" style="background:${p.color}"></span>
+            ${p.nombre}
+          </div>
+          <div style="text-align:right">
+            <div class="summary-val">${formatMoney(p.monto)}</div>
+            <div style="font-size:0.78rem;color:var(--muted);font-weight:700">${accion}</div>
+          </div>
+        </div>`;
+    }).join('') + `
+      <div class="summary-row" style="margin-top:10px">
+        <div class="summary-name" style="font-family:'Fredoka One',cursive;font-size:1rem">🧾 Total</div>
+        <div class="summary-val">${formatMoney(total)}</div>
+      </div>
+      ${people.length > 1 ? `
+      <div class="summary-row">
+        <div class="summary-name" style="font-family:'Fredoka One',cursive;font-size:1rem">👤 Por persona</div>
+        <div class="summary-val">${formatMoney(porPerson)}</div>
+      </div>` : ''}
+    `;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' &&
+       (document.activeElement === document.getElementById('inputNombre') ||
+        document.activeElement === document.getElementById('inputMonto'))) {
+      agregarPersona();
+    }
+  });
+
+  // ── ARRANCAR ──────────────────────────────────────
+  cargarDatos();
+</script>
+</body>
+</html>
