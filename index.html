@@ -7,51 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #fdf6ec;
-    --card: #fff;
-    --accent: #ff6b6b;
-    --accent2: #ffd93d;
-    --accent3: #6bcb77;
-    --accent4: #4d96ff;
-    --text: #2d2d2d;
-    --muted: #999;
-    --shadow: 0 8px 32px rgba(0,0,0,0.10);
-    --radius: 20px;
+    --bg: #fdf6ec; --card: #fff; --accent: #ff6b6b; --accent2: #ffd93d;
+    --accent3: #6bcb77; --accent4: #4d96ff; --text: #2d2d2d; --muted: #999;
+    --shadow: 0 8px 32px rgba(0,0,0,0.10); --radius: 20px;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Nunito', sans-serif;
-    min-height: 100vh;
-    color: var(--text);
-    padding: 30px 20px 60px;
-    transition: background 0.5s;
-  }
-
-  body.cat-amigos {
-    background: #fff8f0;
-    background-image: radial-gradient(circle at 10% 20%, #ffe0e0 0%, transparent 40%),
-                      radial-gradient(circle at 90% 80%, #fff0a0 0%, transparent 40%);
-  }
-  body.cat-vacaciones {
-    background: #f0faff;
-    background-image: radial-gradient(circle at 10% 20%, #c8f0ff 0%, transparent 40%),
-                      radial-gradient(circle at 90% 80%, #d0ffe8 0%, transparent 40%);
-  }
-  body.cat-cena {
-    background: #1a1025;
-    background-image: radial-gradient(circle at 10% 20%, #2d1b4e 0%, transparent 40%),
-                      radial-gradient(circle at 90% 80%, #1a2a1a 0%, transparent 40%);
-    color: #f0e6ff;
-  }
-  body.cat-cena .person-card,
-  body.cat-cena .top-panel,
-  body.cat-cena .summary-box,
-  body.cat-cena .gastos-panel { background: #2a1f3d; color: #f0e6ff; border-color: #6c3fc5; }
-  body.cat-cena input[type="text"],
-  body.cat-cena input[type="number"] { background: #1a1025; color: #f0e6ff; border-color: #6c3fc5; }
-  body.cat-cena select { background: #1a1025; color: #f0e6ff; border-color: #6c3fc5; }
+  body { font-family: 'Nunito', sans-serif; min-height: 100vh; color: var(--text); padding: 30px 20px 60px; transition: background 0.5s; }
+  body.cat-amigos { background: #fff8f0; background-image: radial-gradient(circle at 10% 20%, #ffe0e0 0%, transparent 40%), radial-gradient(circle at 90% 80%, #fff0a0 0%, transparent 40%); }
+  body.cat-vacaciones { background: #f0faff; background-image: radial-gradient(circle at 10% 20%, #c8f0ff 0%, transparent 40%), radial-gradient(circle at 90% 80%, #d0ffe8 0%, transparent 40%); }
+  body.cat-cena { background: #1a1025; background-image: radial-gradient(circle at 10% 20%, #2d1b4e 0%, transparent 40%), radial-gradient(circle at 90% 80%, #1a2a1a 0%, transparent 40%); color: #f0e6ff; }
+  body.cat-cena .person-card, body.cat-cena .top-panel, body.cat-cena .summary-box, body.cat-cena .gastos-panel, body.cat-cena .transfers-box { background: #2a1f3d; color: #f0e6ff; border-color: #6c3fc5; }
+  body.cat-cena input[type="text"], body.cat-cena input[type="number"], body.cat-cena select { background: #1a1025; color: #f0e6ff; border-color: #6c3fc5; }
   body.cat-cena .person-name { color: #f0e6ff; }
   body.cat-cena h1 { color: #d4a0ff; text-shadow: 3px 3px 0 #6c3fc5; }
   body.cat-cena .subtitle { color: #9977cc; }
@@ -60,14 +26,8 @@
   body.cat-cena .gasto-item { background: #1a1025; border-color: #6c3fc5; }
   body.cat-cena .participante-chip { background: #3d2f5e; color: #d4a0ff; }
   body.cat-cena .tab-btn { color: #9977cc; }
-  body.cat-cena .tab-btn.active { color: #d4a0ff; border-color: #6c3fc5; }
-  body.cat-cena .transfers-box { background: #2a1f3d; border-color: #6c3fc5; }
-
-  body.default {
-    background: #fdf6ec;
-    background-image: radial-gradient(circle at 10% 20%, #ffe0e0 0%, transparent 40%),
-                      radial-gradient(circle at 90% 80%, #d0f0ff 0%, transparent 40%);
-  }
+  body.cat-cena .tab-btn.active { color: #d4a0ff; border-bottom-color: #6c3fc5; }
+  body.default { background: #fdf6ec; background-image: radial-gradient(circle at 10% 20%, #ffe0e0 0%, transparent 40%), radial-gradient(circle at 90% 80%, #d0f0ff 0%, transparent 40%); }
 
   h1 { font-family: 'Fredoka One', cursive; font-size: 2.6rem; text-align: center; color: var(--accent); letter-spacing: 1px; margin-bottom: 6px; text-shadow: 3px 3px 0 #ffd93d; }
   .subtitle { text-align: center; color: var(--muted); font-size: 1rem; margin-bottom: 36px; font-weight: 600; }
@@ -75,8 +35,7 @@
 
   .login-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 50px 32px; text-align: center; border: 3px solid var(--accent2); max-width: 400px; margin: 60px auto; }
   .login-box h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; margin-bottom: 10px; }
-  .login-box p { color: var(--muted); font-weight: 600; margin-bottom: 28px; font-size: 0.95rem; }
-
+  .login-box p { color: var(--muted); font-weight: 600; margin-bottom: 28px; }
   .btn-google { display: flex; align-items: center; justify-content: center; gap: 12px; background: #fff; border: 2.5px solid #e0e0e0; border-radius: 14px; padding: 14px 24px; font-family: 'Fredoka One', cursive; font-size: 1.1rem; cursor: pointer; width: 100%; transition: box-shadow 0.2s, transform 0.15s; color: var(--text); }
   .btn-google:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.12); transform: translateY(-2px); }
   .btn-google img { width: 24px; height: 24px; }
@@ -92,7 +51,7 @@
   .cat-card.cena { border-color: #9b59b6; } .cat-card.cena:hover { background: #f9f0ff; }
   .cat-emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
   .cat-title { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 6px; }
-  .cat-desc  { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+  .cat-desc { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
 
   .user-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
   .user-bar-right { display: flex; align-items: center; gap: 10px; }
@@ -121,18 +80,17 @@
   .input-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 140px; }
   label { font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
   input[type="text"], input[type="number"], select { padding: 11px 14px; border: 2.5px solid #e8e8e8; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 700; outline: none; transition: border-color 0.2s; background: #fafafa; color: var(--text); }
-  input[type="text"]:focus, input[type="number"]:focus, select:focus { border-color: var(--accent4); background: #fff; }
+  input:focus, select:focus { border-color: var(--accent4); background: #fff; }
 
   .participantes-wrap { margin-top: 14px; }
   .part-label { font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 10px; display: block; }
   .participantes-list { display: flex; flex-wrap: wrap; gap: 8px; }
-  .participante-check { display: inline-flex; align-items: center; gap: 6px; border-radius: 50px; padding: 8px 16px; cursor: pointer; transition: background 0.15s, color 0.15s; user-select: none; font-weight: 700; font-size: 0.9rem; border: 2px solid transparent; }
+  .participante-check { display: inline-flex; align-items: center; border-radius: 50px; padding: 8px 16px; cursor: pointer; user-select: none; font-weight: 700; font-size: 0.9rem; border: 2px solid transparent; transition: all 0.15s; }
   .participante-check.checked { background: var(--accent4); color: #fff; border-color: var(--accent4); }
   .participante-check:not(.checked) { background: #f0f0f0; color: var(--muted); }
 
-  .btn { padding: 12px 22px; border: none; border-radius: 14px; font-family: 'Fredoka One', cursive; font-size: 1rem; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; letter-spacing: 0.5px; }
+  .btn { padding: 12px 22px; border: none; border-radius: 14px; font-family: 'Fredoka One', cursive; font-size: 1rem; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
   .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.13); }
-  .btn:active { transform: translateY(0); }
   .btn-primary { background: var(--accent4); color: #fff; }
   .btn-danger  { background: var(--accent); color: #fff; }
 
@@ -156,7 +114,7 @@
 
   .stickman-wrap { position: relative; width: 100px; height: 160px; cursor: pointer; flex-shrink: 0; }
   .stickman-wrap:hover .avatar-hint { opacity: 1; }
-  .face-circle { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 3.5px solid var(--accent2); background: #f0f0f0; z-index: 2; transition: border-color 0.2s; }
+  .face-circle { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 3.5px solid var(--accent2); background: #f0f0f0; z-index: 2; }
   .stickman-wrap:hover .face-circle { border-color: var(--accent4); }
   .face-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .face-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
@@ -167,14 +125,11 @@
   .person-name { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: var(--text); text-align: center; cursor: pointer; border-radius: 8px; padding: 2px 6px; transition: background 0.15s; }
   .person-name:hover { background: #fff5f5; }
   .person-balance { font-family: 'Fredoka One', cursive; font-size: 1rem; text-align: center; }
-  .balance-pos { color: var(--accent3); }
-  .balance-neg { color: var(--accent); }
-  .balance-neu { color: var(--muted); }
+  .balance-pos { color: var(--accent3); } .balance-neg { color: var(--accent); } .balance-neu { color: var(--muted); }
 
   .delete-btn { position: absolute; top: 10px; right: 10px; background: #ffe0e0; border: none; border-radius: 50%; width: 26px; height: 26px; font-size: 0.75rem; cursor: pointer; color: var(--accent); font-weight: 800; transition: background 0.15s; display: flex; align-items: center; justify-content: center; }
   .delete-btn:hover { background: var(--accent); color: #fff; }
   .color-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-
   .empty-state { text-align: center; padding: 50px 20px; color: var(--muted); font-size: 1rem; font-weight: 700; }
   .empty-state .emoji { font-size: 3rem; display: block; margin-bottom: 10px; }
 
@@ -183,7 +138,6 @@
   .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 2px dashed #f0f0f0; font-weight: 700; }
   .summary-row:last-child { border-bottom: none; }
   .summary-name { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
-  .summary-val { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--accent4); }
 
   .transfers-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 32px; border: 3px solid var(--accent2); margin-bottom: 24px; }
   .transfers-box h2 { font-family: 'Fredoka One', cursive; font-size: 1.4rem; margin-bottom: 18px; color: var(--text); }
@@ -203,19 +157,16 @@
     h1 { font-size: 2rem; }
     .top-panel, .gastos-panel { padding: 20px; }
     .total-box { flex-direction: column; text-align: center; }
-    .cat-grid { grid-template-columns: 1fr; }
-    .tabs { flex-direction: column; }
+    .cat-grid, .tabs { grid-template-columns: 1fr; flex-direction: column; }
   }
 </style>
 </head>
 <body class="default">
-
 <div class="container">
   <h1>💸 Dividir Gastos</h1>
   <p class="subtitle">Agregá personas, cargá gastos y dividí fácil</p>
   <div id="app"><div class="loading">Cargando... ⏳</div></div>
 </div>
-
 <div class="saved-badge" id="savedBadge">✅ Guardado</div>
 
 <script type="module">
@@ -239,13 +190,16 @@
   const db   = getFirestore(app);
 
   const COLORS = ['#4d96ff','#ff6b6b','#6bcb77','#ffd93d','#c77dff','#ff9f43','#48dbfb','#ff6eb4'];
-  const CATEGORIAS = {
+  const CATS = {
     amigos:     { label: 'Reunión con amigos', emoji: '🎉', desc: 'Juntadas, salidas, fiestas',    clase: 'amigos' },
     vacaciones: { label: 'Vacaciones',          emoji: '🏖️', desc: 'Viajes, escapadas, aventuras', clase: 'vacaciones' },
     cena:       { label: 'Cena / Restaurante',  emoji: '🍽️', desc: 'Salidas a comer, cenas',       clase: 'cena' }
   };
 
-  let people = [], gastos = [], currentUser = null, categoriaActual = null, tabActual = 'personas';
+  let people = [], gastos = [], currentUser = null, catActual = null, tabActual = 'personas';
+
+  // Guardamos el estado de participantes FUERA del DOM
+  let estadoParticipantes = {};
 
   async function cargarDeFirestore(cat) {
     const snap = await getDoc(doc(db, 'usuarios', currentUser.uid, 'categorias', cat));
@@ -254,116 +208,111 @@
     renderApp();
   }
 
-  async function guardarEnFirestore() {
-    await setDoc(doc(db, 'usuarios', currentUser.uid, 'categorias', categoriaActual), { people, gastos });
+  async function guardar() {
+    await setDoc(doc(db, 'usuarios', currentUser.uid, 'categorias', catActual), { people, gastos });
     mostrarBadge();
   }
 
-  onAuthStateChanged(auth, user => {
-    currentUser = user;
-    if (user) { categoriaActual = null; renderCategorias(); }
+  onAuthStateChanged(auth, u => {
+    currentUser = u;
+    if (u) { catActual = null; renderCategorias(); }
     else { document.body.className = 'default'; renderLogin(); }
   });
 
-  const loginConGoogle = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e => alert(e.message));
-  const cerrarSesion   = () => signOut(auth);
+  const loginGoogle  = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e => alert(e.message));
+  const salir        = () => signOut(auth);
+  const mostrarBadge = () => { const b = document.getElementById('savedBadge'); b.classList.add('show'); setTimeout(() => b.classList.remove('show'), 2000); };
 
-  function elegirCategoria(cat) {
-    categoriaActual = cat; tabActual = 'personas';
-    document.body.className = 'cat-' + CATEGORIAS[cat].clase;
+  function elegirCat(cat) {
+    catActual = cat; tabActual = 'personas';
+    document.body.className = 'cat-' + CATS[cat].clase;
     cargarDeFirestore(cat);
   }
 
-  function volverACategorias() {
-    categoriaActual = null;
-    document.body.className = 'default';
-    renderCategorias();
-  }
-
-  function mostrarBadge() {
-    const b = document.getElementById('savedBadge');
-    b.classList.add('show');
-    setTimeout(() => b.classList.remove('show'), 2000);
+  function volverCats() {
+    catActual = null; document.body.className = 'default'; renderCategorias();
   }
 
   function calcularDeudas() {
-    const balance = {};
-    people.forEach(p => balance[p.id] = 0);
+    const bal = {};
+    people.forEach(p => bal[p.id] = 0);
     gastos.forEach(g => {
+      if (!g.participantes.length) return;
       const parte = g.monto / g.participantes.length;
-      balance[g.pagadorId] += g.monto;
-      g.participantes.forEach(pid => balance[pid] -= parte);
+      bal[g.pagadorId] += g.monto;
+      g.participantes.forEach(pid => bal[pid] -= parte);
     });
-    const deu = Object.entries(balance).filter(([,v]) => v < -0.01).map(([id,val]) => ({id, val})).sort((a,b) => a.val - b.val);
-    const acr = Object.entries(balance).filter(([,v]) => v >  0.01).map(([id,val]) => ({id, val})).sort((a,b) => b.val - a.val);
+    const deu = Object.entries(bal).filter(([,v]) => v < -0.01).map(([id,val]) => ({id,val})).sort((a,b) => a.val-b.val);
+    const acr = Object.entries(bal).filter(([,v]) => v >  0.01).map(([id,val]) => ({id,val})).sort((a,b) => b.val-a.val);
     const trans = [];
-    let i = 0, j = 0;
-    while (i < deu.length && j < acr.length) {
+    let i=0, j=0;
+    while (i<deu.length && j<acr.length) {
       const m = Math.min(-deu[i].val, acr[j].val);
       trans.push({ de: deu[i].id, a: acr[j].id, monto: m });
       deu[i].val += m; acr[j].val -= m;
       if (Math.abs(deu[i].val) < 0.01) i++;
       if (Math.abs(acr[j].val) < 0.01) j++;
     }
-    return { balance, transferencias: trans };
+    return { bal, trans };
   }
 
   function agregarPersona() {
-    const nombre = document.getElementById('inputNombre').value.trim();
-    if (!nombre) { alert('¡Escribí un nombre!'); return; }
-    people.push({ id: Date.now(), nombre, foto: null, color: COLORS[people.length % COLORS.length] });
+    const n = document.getElementById('inputNombre').value.trim();
+    if (!n) { alert('¡Escribí un nombre!'); return; }
+    people.push({ id: Date.now(), nombre: n, foto: null, color: COLORS[people.length % COLORS.length] });
     document.getElementById('inputNombre').value = '';
-    guardarEnFirestore(); renderApp();
+    guardar(); renderApp();
   }
 
   function eliminarPersona(id) {
-    if (gastos.some(g => g.pagadorId === id || g.participantes.includes(id))) {
+    if (gastos.some(g => g.pagadorId===id || g.participantes.includes(id))) {
       if (!confirm('Esta persona tiene gastos. ¿Seguro?')) return;
       gastos = gastos.filter(g => g.pagadorId !== id);
       gastos.forEach(g => g.participantes = g.participantes.filter(p => p !== id));
     }
     people = people.filter(p => p.id !== id);
-    guardarEnFirestore(); renderApp();
+    guardar(); renderApp();
   }
 
-  function editarNombrePersona(id, el) {
+  function editarNombre(id, el) {
     if (el.querySelector('input')) return;
-    const p = people.find(x => x.id === id);
+    const p = people.find(x => x.id===id);
     const inp = document.createElement('input');
-    inp.type = 'text'; inp.value = p.nombre;
-    inp.style.cssText = 'width:120px;padding:4px 8px;border:2px solid var(--accent);border-radius:8px;font-family:Fredoka One,cursive;font-size:0.95rem;outline:none;text-align:center;';
-    el.innerHTML = ''; el.appendChild(inp); inp.focus(); inp.select();
-    const ok = () => { const v = inp.value.trim(); if (v) p.nombre = v; guardarEnFirestore(); renderApp(); };
+    inp.type='text'; inp.value=p.nombre;
+    inp.style.cssText='width:120px;padding:4px 8px;border:2px solid var(--accent);border-radius:8px;font-family:Fredoka One,cursive;font-size:0.95rem;outline:none;text-align:center;';
+    el.innerHTML=''; el.appendChild(inp); inp.focus(); inp.select();
+    const ok = () => { const v=inp.value.trim(); if(v) p.nombre=v; guardar(); renderApp(); };
     inp.addEventListener('blur', ok);
-    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); ok(); } if (e.key === 'Escape') renderApp(); });
+    inp.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();ok();} if(e.key==='Escape') renderApp(); });
   }
 
   function agregarGasto() {
     const nombre    = document.getElementById('gastoNombre').value.trim();
     const monto     = parseFloat(document.getElementById('gastoMonto').value);
     const pagadorId = Number(document.getElementById('gastoPagador').value);
-    // ── FIX: leer participantes por data-checked ──
-    const participantes = people
-      .filter(p => document.getElementById('part-' + p.id)?.dataset.checked !== 'false')
-      .map(p => p.id);
 
-    if (!nombre)              { alert('¡Escribí un nombre!'); return; }
-    if (!monto || monto <= 0) { alert('¡Monto inválido!'); return; }
-    if (!pagadorId)           { alert('¡Elegí quién pagó!'); return; }
-    if (!participantes.length){ alert('¡Elegí al menos un participante!'); return; }
+    // Leer desde estadoParticipantes (no del DOM)
+    const participantes = people.filter(p => estadoParticipantes[p.id] === true).map(p => p.id);
+
+    if (!nombre)               { alert('¡Escribí una descripción!'); return; }
+    if (!monto || monto <= 0)  { alert('¡Monto inválido!'); return; }
+    if (!pagadorId)            { alert('¡Elegí quién pagó!'); return; }
+    if (!participantes.length) { alert('¡Elegí al menos un participante!'); return; }
 
     gastos.push({ id: Date.now(), nombre, monto, pagadorId, participantes });
     document.getElementById('gastoNombre').value = '';
     document.getElementById('gastoMonto').value  = '';
-    guardarEnFirestore(); renderApp();
+    // Resetear participantes a todos seleccionados
+    people.forEach(p => estadoParticipantes[p.id] = true);
+    guardar(); renderApp();
   }
 
-  const eliminarGasto = id => { gastos = gastos.filter(g => g.id !== id); guardarEnFirestore(); renderApp(); };
+  const eliminarGasto = id => { gastos = gastos.filter(g => g.id !== id); guardar(); renderApp(); };
 
   async function resetearTodo() {
     if (!confirm('¿Borrar todo?')) return;
     people = []; gastos = [];
-    await guardarEnFirestore(); renderApp();
+    await guardar(); renderApp();
   }
 
   function stickman(p) {
@@ -385,9 +334,9 @@
     </div>`;
   }
 
-  const fmt  = n  => '$' + n.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const name = id => people.find(p => p.id === id)?.nombre || '?';
-  const col  = id => people.find(p => p.id === id)?.color  || '#999';
+  const fmt  = n  => '$' + n.toLocaleString('es-AR', { minimumFractionDigits:2, maximumFractionDigits:2 });
+  const name = id => people.find(p => p.id===id)?.nombre || '?';
+  const col  = id => people.find(p => p.id===id)?.color  || '#999';
 
   function renderLogin() {
     document.getElementById('app').innerHTML = `
@@ -399,7 +348,7 @@
           Continuar con Google
         </button>
       </div>`;
-    document.getElementById('btnGoogle').onclick = loginConGoogle;
+    document.getElementById('btnGoogle').onclick = loginGoogle;
   }
 
   function renderCategorias() {
@@ -416,7 +365,7 @@
         <h2>¿Qué vas a dividir hoy?</h2>
         <p class="cat-sub">Elegí una categoría para empezar</p>
         <div class="cat-grid">
-          ${Object.entries(CATEGORIAS).map(([k,c]) => `
+          ${Object.entries(CATS).map(([k,c]) => `
             <div class="cat-card ${c.clase}" data-cat="${k}">
               <span class="cat-emoji">${c.emoji}</span>
               <div class="cat-title">${c.label}</div>
@@ -424,14 +373,17 @@
             </div>`).join('')}
         </div>
       </div>`;
-    document.getElementById('btnLogout').onclick = cerrarSesion;
-    document.querySelectorAll('.cat-card').forEach(c => c.onclick = () => elegirCategoria(c.dataset.cat));
+    document.getElementById('btnLogout').onclick = salir;
+    document.querySelectorAll('.cat-card').forEach(c => c.onclick = () => elegirCat(c.dataset.cat));
   }
 
   function renderApp() {
-    const cat = CATEGORIAS[categoriaActual];
-    const { balance, transferencias } = calcularDeudas();
-    const total = gastos.reduce((s,g) => s + g.monto, 0);
+    const cat = CATS[catActual];
+    const { bal, trans } = calcularDeudas();
+    const total = gastos.reduce((s,g) => s+g.monto, 0);
+
+    // Inicializar estadoParticipantes si está vacío o hay personas nuevas
+    people.forEach(p => { if (estadoParticipantes[p.id] === undefined) estadoParticipantes[p.id] = true; });
 
     const tabPersonas = `
       <div class="top-panel">
@@ -444,8 +396,8 @@
       ${people.length === 0
         ? `<div class="empty-state"><span class="emoji">👤</span>Agregá personas para empezar</div>`
         : `<div class="people-grid">${people.map(p => {
-            const b = balance[p.id] || 0;
-            const bl = b > 0.01 ? `<span class="person-balance balance-pos">Le deben ${fmt(b)}</span>`
+            const b = bal[p.id] || 0;
+            const bl = b > 0.01  ? `<span class="person-balance balance-pos">Le deben ${fmt(b)}</span>`
                      : b < -0.01 ? `<span class="person-balance balance-neg">Debe ${fmt(Math.abs(b))}</span>`
                      : `<span class="person-balance balance-neu">Al día ✓</span>`;
             return `<div class="person-card">
@@ -464,13 +416,16 @@
             <div class="input-group"><label>Descripción</label><input type="text" id="gastoNombre" placeholder="Ej: Vino, Pizza..."/></div>
             <div class="input-group" style="max-width:160px"><label>Monto ($)</label><input type="number" id="gastoMonto" placeholder="0.00" min="0" step="0.01"/></div>
             <div class="input-group" style="max-width:160px"><label>¿Quién pagó?</label>
-              <select id="gastoPagador"><option value="">Elegir...</option>${people.map(p => `<option value="${p.id}">${p.nombre}</option>`).join('')}</select>
+              <select id="gastoPagador"><option value="">Elegir...</option>${people.map(p=>`<option value="${p.id}">${p.nombre}</option>`).join('')}</select>
             </div>
           </div>
           <div class="participantes-wrap">
-            <span class="part-label">¿Quiénes participaron?</span>
+            <span class="part-label">¿Quiénes participaron? (clic para desmarcar)</span>
             <div class="participantes-list">
-              ${people.map(p => `<div class="participante-check checked" id="part-${p.id}" data-checked="true" data-pid="${p.id}">${p.nombre}</div>`).join('')}
+              ${people.map(p => `
+                <div class="participante-check ${estadoParticipantes[p.id] ? 'checked' : ''}" data-pid="${p.id}">
+                  ${p.nombre}
+                </div>`).join('')}
             </div>
           </div>
           <div style="margin-top:16px"><button class="btn btn-primary" id="btnAgregarGasto">Agregar gasto</button></div>
@@ -481,7 +436,7 @@
               <div class="gasto-item">
                 <div class="gasto-info">
                   <div class="gasto-nombre">${g.nombre}</div>
-                  <div class="gasto-detalle">Pagó: <strong style="color:${col(g.pagadorId)}">${name(g.pagadorId)}</strong> • ${g.participantes.map(pid => `<span class="participante-chip">${name(pid)}</span>`).join('')}</div>
+                  <div class="gasto-detalle">Pagó: <strong style="color:${col(g.pagadorId)}">${name(g.pagadorId)}</strong> • ${g.participantes.map(pid=>`<span class="participante-chip">${name(pid)}</span>`).join('')}</div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px">
                   <div class="gasto-monto">${fmt(g.monto)}</div>
@@ -494,22 +449,20 @@
       : `${total > 0 ? `<div class="total-box"><div><div class="label">Total gastado</div><div class="per-person">${people.length} personas</div></div><div class="amount">${fmt(total)}</div></div>` : ''}
          <div class="summary-box"><h2>📊 Balance por persona</h2>
            ${people.map(p => {
-             const b = balance[p.id] || 0;
-             const color = b > 0.01 ? 'var(--accent3)' : b < -0.01 ? 'var(--accent)' : 'var(--muted)';
-             const lbl   = b > 0.01 ? `le deben ${fmt(b)}` : b < -0.01 ? `debe ${fmt(Math.abs(b))}` : 'al día ✓';
+             const b = bal[p.id]||0;
+             const color = b>0.01?'var(--accent3)':b<-0.01?'var(--accent)':'var(--muted)';
+             const lbl   = b>0.01?`le deben ${fmt(b)}`:b<-0.01?`debe ${fmt(Math.abs(b))}`:'al día ✓';
              return `<div class="summary-row"><div class="summary-name"><span class="color-dot" style="background:${p.color}"></span>${p.nombre}</div><div style="font-family:'Fredoka One',cursive;color:${color}">${lbl}</div></div>`;
            }).join('')}
          </div>
-         ${transferencias.length > 0
+         ${trans.length > 0
            ? `<div class="transfers-box"><h2>💸 ¿Quién le paga a quién?</h2>
-               ${transferencias.map(t => `
-                 <div class="transfer-row">
-                   <span class="transfer-from">${name(Number(t.de))}</span>
-                   <span class="transfer-arrow">→</span>
-                   <span class="transfer-to">${name(Number(t.a))}</span>
-                   <span class="transfer-amount">${fmt(t.monto)}</span>
-                 </div>`).join('')}
-              </div>`
+               ${trans.map(t=>`<div class="transfer-row">
+                 <span class="transfer-from">${name(Number(t.de))}</span>
+                 <span class="transfer-arrow">→</span>
+                 <span class="transfer-to">${name(Number(t.a))}</span>
+                 <span class="transfer-amount">${fmt(t.monto)}</span>
+               </div>`).join('')}</div>`
            : `<div class="empty-state"><span class="emoji">✅</span>¡Todos al día!</div>`}`;
 
     document.getElementById('app').innerHTML = `
@@ -529,26 +482,26 @@
         <button class="tab-btn ${tabActual==='gastos'?'active':''}" data-tab="gastos">🧾 Gastos</button>
         <button class="tab-btn ${tabActual==='resumen'?'active':''}" data-tab="resumen">📋 Resumen</button>
       </div>
-      <div>${tabActual==='personas' ? tabPersonas : tabActual==='gastos' ? tabGastos : tabResumen}</div>
-      ${people.length > 0 || gastos.length > 0 ? `<div class="reset-btn-wrap"><button class="btn btn-danger" id="btnReset">🗑️ Borrar todo</button></div>` : ''}`;
+      <div>${tabActual==='personas'?tabPersonas:tabActual==='gastos'?tabGastos:tabResumen}</div>
+      ${people.length>0||gastos.length>0?`<div class="reset-btn-wrap"><button class="btn btn-danger" id="btnReset">🗑️ Borrar todo</button></div>`:''}`;
 
     // Eventos
-    document.getElementById('btnBack').onclick    = volverACategorias;
-    document.getElementById('btnLogout').onclick  = cerrarSesion;
+    document.getElementById('btnBack').onclick   = volverCats;
+    document.getElementById('btnLogout').onclick = salir;
     document.getElementById('btnReset')?.addEventListener('click', resetearTodo);
-    document.querySelectorAll('.tab-btn').forEach(b => b.onclick = () => { tabActual = b.dataset.tab; renderApp(); });
+    document.querySelectorAll('.tab-btn').forEach(b => b.onclick = () => { tabActual=b.dataset.tab; renderApp(); });
 
     document.getElementById('btnAgregarPersona')?.addEventListener('click', agregarPersona);
-    document.getElementById('inputNombre')?.addEventListener('keydown', e => { if (e.key==='Enter') agregarPersona(); });
+    document.getElementById('inputNombre')?.addEventListener('keydown', e => { if(e.key==='Enter') agregarPersona(); });
     document.querySelectorAll('.delete-btn[data-id]').forEach(b => b.onclick = () => eliminarPersona(Number(b.dataset.id)));
-    document.querySelectorAll('[data-edit-nombre]').forEach(el => el.onclick = () => editarNombrePersona(Number(el.dataset.editNombre), el));
-    document.querySelectorAll('[data-foto]').forEach(w => w.onclick = () => document.getElementById('file-' + w.dataset.foto)?.click());
+    document.querySelectorAll('[data-edit-nombre]').forEach(el => el.onclick = () => editarNombre(Number(el.dataset.editNombre), el));
+    document.querySelectorAll('[data-foto]').forEach(w => w.onclick = () => document.getElementById('file-'+w.dataset.foto)?.click());
     document.querySelectorAll('[id^="file-"]').forEach(inp => {
       inp.onchange = () => {
-        const id = Number(inp.id.replace('file-', ''));
-        const file = inp.files[0]; if (!file) return;
+        const id = Number(inp.id.replace('file-',''));
+        const file = inp.files[0]; if(!file) return;
         const r = new FileReader();
-        r.onload = e => { const p = people.find(x => x.id===id); if (p) { p.foto = e.target.result; guardarEnFirestore(); renderApp(); } };
+        r.onload = e => { const p=people.find(x=>x.id===id); if(p){p.foto=e.target.result; guardar(); renderApp();} };
         r.readAsDataURL(file);
       };
     });
@@ -556,12 +509,12 @@
     document.getElementById('btnAgregarGasto')?.addEventListener('click', agregarGasto);
     document.querySelectorAll('.delete-btn[data-gasto-id]').forEach(b => b.onclick = () => eliminarGasto(Number(b.dataset.gastoId)));
 
-    // ── FIX PARTICIPANTES ──
+    // ── PARTICIPANTES: estado guardado en JS, no en el DOM ──
     document.querySelectorAll('.participante-check').forEach(btn => {
       btn.addEventListener('click', () => {
-        const activo = btn.dataset.checked !== 'false';
-        btn.dataset.checked = activo ? 'false' : 'true';
-        btn.classList.toggle('checked', !activo);
+        const pid = Number(btn.dataset.pid);
+        estadoParticipantes[pid] = !estadoParticipantes[pid];
+        btn.classList.toggle('checked', estadoParticipantes[pid]);
       });
     });
   }
