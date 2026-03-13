@@ -61,6 +61,7 @@
   body.cat-cena .participante-chip { background: #3d2f5e; color: #d4a0ff; }
   body.cat-cena .tab-btn { color: #9977cc; }
   body.cat-cena .tab-btn.active { color: #d4a0ff; border-color: #6c3fc5; }
+  body.cat-cena .transfers-box { background: #2a1f3d; border-color: #6c3fc5; }
 
   body.default {
     background: #fdf6ec;
@@ -68,57 +69,23 @@
                       radial-gradient(circle at 90% 80%, #d0f0ff 0%, transparent 40%);
   }
 
-  h1 {
-    font-family: 'Fredoka One', cursive;
-    font-size: 2.6rem;
-    text-align: center;
-    color: var(--accent);
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-    text-shadow: 3px 3px 0 #ffd93d;
-  }
-
-  .subtitle {
-    text-align: center;
-    color: var(--muted);
-    font-size: 1rem;
-    margin-bottom: 36px;
-    font-weight: 600;
-  }
-
+  h1 { font-family: 'Fredoka One', cursive; font-size: 2.6rem; text-align: center; color: var(--accent); letter-spacing: 1px; margin-bottom: 6px; text-shadow: 3px 3px 0 #ffd93d; }
+  .subtitle { text-align: center; color: var(--muted); font-size: 1rem; margin-bottom: 36px; font-weight: 600; }
   .container { max-width: 900px; margin: 0 auto; }
 
-  /* LOGIN */
-  .login-box {
-    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
-    padding: 50px 32px; text-align: center; border: 3px solid var(--accent2);
-    max-width: 400px; margin: 60px auto;
-  }
+  .login-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 50px 32px; text-align: center; border: 3px solid var(--accent2); max-width: 400px; margin: 60px auto; }
   .login-box h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; margin-bottom: 10px; }
   .login-box p { color: var(--muted); font-weight: 600; margin-bottom: 28px; font-size: 0.95rem; }
 
-  .btn-google {
-    display: flex; align-items: center; justify-content: center; gap: 12px;
-    background: #fff; border: 2.5px solid #e0e0e0; border-radius: 14px;
-    padding: 14px 24px; font-family: 'Fredoka One', cursive; font-size: 1.1rem;
-    cursor: pointer; width: 100%; transition: box-shadow 0.2s, transform 0.15s; color: var(--text);
-  }
+  .btn-google { display: flex; align-items: center; justify-content: center; gap: 12px; background: #fff; border: 2.5px solid #e0e0e0; border-radius: 14px; padding: 14px 24px; font-family: 'Fredoka One', cursive; font-size: 1.1rem; cursor: pointer; width: 100%; transition: box-shadow 0.2s, transform 0.15s; color: var(--text); }
   .btn-google:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.12); transform: translateY(-2px); }
   .btn-google img { width: 24px; height: 24px; }
 
-  /* CATEGORIAS */
   .cat-screen { max-width: 700px; margin: 0 auto; }
   .cat-screen h2 { font-family: 'Fredoka One', cursive; font-size: 1.8rem; text-align: center; margin-bottom: 8px; }
   .cat-screen .cat-sub { text-align: center; color: var(--muted); font-weight: 600; margin-bottom: 36px; }
-
   .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
-
-  .cat-card {
-    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
-    padding: 32px 20px; text-align: center; cursor: pointer; border: 3px solid transparent;
-    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-    animation: popIn 0.35s cubic-bezier(.175,.885,.32,1.275);
-  }
+  .cat-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 32px 20px; text-align: center; cursor: pointer; border: 3px solid transparent; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; animation: popIn 0.35s cubic-bezier(.175,.885,.32,1.275); }
   .cat-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.15); }
   .cat-card.amigos { border-color: #ffb347; }
   .cat-card.amigos:hover { background: #fff8f0; }
@@ -126,229 +93,113 @@
   .cat-card.vacaciones:hover { background: #f0faff; }
   .cat-card.cena { border-color: #9b59b6; }
   .cat-card.cena:hover { background: #f9f0ff; }
-
   .cat-emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
   .cat-title { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 6px; }
   .cat-desc  { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
 
-  /* USER BAR */
-  .user-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 12px; margin-bottom: 24px; flex-wrap: wrap;
-  }
+  .user-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
   .user-bar-right { display: flex; align-items: center; gap: 10px; }
   .user-bar img { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--accent2); }
   .user-name { font-weight: 800; font-size: 0.95rem; }
-
-  .btn-back {
-    background: #f0f0f0; border: none; border-radius: 10px; padding: 7px 14px;
-    font-family: 'Fredoka One', cursive; font-size: 0.85rem; cursor: pointer;
-    color: var(--text); transition: background 0.15s; display: flex; align-items: center; gap: 6px;
-  }
+  .btn-back { background: #f0f0f0; border: none; border-radius: 10px; padding: 7px 14px; font-family: 'Fredoka One', cursive; font-size: 0.85rem; cursor: pointer; color: var(--text); transition: background 0.15s; }
   .btn-back:hover { background: #e0e0e0; }
-
-  .btn-logout {
-    background: #f0f0f0; border: none; border-radius: 10px; padding: 7px 14px;
-    font-family: 'Fredoka One', cursive; font-size: 0.85rem; cursor: pointer;
-    color: var(--muted); transition: background 0.15s;
-  }
+  .btn-logout { background: #f0f0f0; border: none; border-radius: 10px; padding: 7px 14px; font-family: 'Fredoka One', cursive; font-size: 0.85rem; cursor: pointer; color: var(--muted); transition: background 0.15s; }
   .btn-logout:hover { background: #ffe0e0; color: var(--accent); }
-
-  .cat-badge {
-    display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
-    border-radius: 50px; font-family: 'Fredoka One', cursive; font-size: 0.9rem;
-  }
+  .cat-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 50px; font-family: 'Fredoka One', cursive; font-size: 0.9rem; }
   .cat-badge.amigos    { background: #fff0d0; color: #cc7700; }
   .cat-badge.vacaciones { background: #d0f0ff; color: #0077aa; }
   .cat-badge.cena      { background: #f0d0ff; color: #7700cc; }
 
-  /* TABS */
-  .tabs {
-    display: flex; gap: 0; margin-bottom: 24px;
-    background: var(--card); border-radius: var(--radius);
-    box-shadow: var(--shadow); overflow: hidden; border: 3px solid #f0f0f0;
-  }
-  .tab-btn {
-    flex: 1; padding: 14px; border: none; background: transparent;
-    font-family: 'Fredoka One', cursive; font-size: 1rem; cursor: pointer;
-    color: var(--muted); transition: all 0.2s; border-bottom: 3px solid transparent;
-  }
+  .tabs { display: flex; margin-bottom: 24px; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; border: 3px solid #f0f0f0; }
+  .tab-btn { flex: 1; padding: 14px; border: none; background: transparent; font-family: 'Fredoka One', cursive; font-size: 1rem; cursor: pointer; color: var(--muted); transition: all 0.2s; border-bottom: 3px solid transparent; }
   .tab-btn.active { color: var(--accent4); border-bottom-color: var(--accent4); background: #f8fbff; }
   .tab-btn:hover:not(.active) { background: #f8f8f8; }
 
-  /* PANEL */
-  .top-panel {
-    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
-    padding: 28px 32px; margin-bottom: 30px; border: 3px solid var(--accent2);
-  }
+  .top-panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 32px; margin-bottom: 30px; border: 3px solid var(--accent2); }
   .top-panel h2 { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--text); margin-bottom: 18px; }
-
-  .gastos-panel {
-    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
-    padding: 28px 32px; margin-bottom: 30px; border: 3px solid var(--accent4);
-  }
+  .gastos-panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 32px; margin-bottom: 30px; border: 3px solid var(--accent4); }
   .gastos-panel h2 { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--text); margin-bottom: 18px; }
 
   .input-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; }
   .input-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 140px; }
-
   label { font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
-
-  input[type="text"], input[type="number"], select {
-    padding: 11px 14px; border: 2.5px solid #e8e8e8; border-radius: 12px;
-    font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 700;
-    outline: none; transition: border-color 0.2s; background: #fafafa; color: var(--text);
-  }
+  input[type="text"], input[type="number"], select { padding: 11px 14px; border: 2.5px solid #e8e8e8; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 700; outline: none; transition: border-color 0.2s; background: #fafafa; color: var(--text); }
   input[type="text"]:focus, input[type="number"]:focus, select:focus { border-color: var(--accent4); background: #fff; }
 
-  /* PARTICIPANTES CHECKBOXES */
   .participantes-wrap { margin-top: 14px; }
-  .participantes-wrap label.main { margin-bottom: 10px; display: block; }
+  .participantes-wrap .part-label { font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 10px; display: block; }
   .participantes-list { display: flex; flex-wrap: wrap; gap: 8px; }
 
-  .participante-check {
-    display: flex; align-items: center; gap: 6px;
-    background: #f0f0f0; border-radius: 50px; padding: 6px 14px;
-    cursor: pointer; transition: background 0.15s; user-select: none;
-    font-weight: 700; font-size: 0.9rem;
-  }
-  .participante-check input { display: none; }
-  .participante-check.checked { background: var(--accent4); color: #fff; }
+  .participante-check { display: inline-flex; align-items: center; gap: 6px; background: #f0f0f0; border-radius: 50px; padding: 8px 16px; cursor: pointer; transition: background 0.15s, color 0.15s; user-select: none; font-weight: 700; font-size: 0.9rem; border: 2px solid transparent; }
+  .participante-check.checked { background: var(--accent4); color: #fff; border-color: var(--accent4); }
+  .participante-check:not(.checked) { background: #f0f0f0; color: var(--muted); }
 
-  .btn {
-    padding: 12px 22px; border: none; border-radius: 14px;
-    font-family: 'Fredoka One', cursive; font-size: 1rem; cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s; letter-spacing: 0.5px;
-  }
+  .btn { padding: 12px 22px; border: none; border-radius: 14px; font-family: 'Fredoka One', cursive; font-size: 1rem; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; letter-spacing: 0.5px; }
   .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.13); }
   .btn:active { transform: translateY(0); }
   .btn-primary { background: var(--accent4); color: #fff; }
   .btn-danger  { background: var(--accent); color: #fff; }
 
-  /* LISTA DE GASTOS */
   .gastos-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
-
-  .gasto-item {
-    background: #f8f8f8; border-radius: 14px; padding: 14px 18px;
-    border: 2px solid #f0f0f0; display: flex; justify-content: space-between;
-    align-items: center; gap: 12px; flex-wrap: wrap;
-    animation: popIn 0.3s cubic-bezier(.175,.885,.32,1.275);
-  }
-
+  .gasto-item { background: #f8f8f8; border-radius: 14px; padding: 14px 18px; border: 2px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; animation: popIn 0.3s cubic-bezier(.175,.885,.32,1.275); }
   .gasto-info { flex: 1; }
   .gasto-nombre { font-family: 'Fredoka One', cursive; font-size: 1.05rem; margin-bottom: 4px; }
   .gasto-detalle { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
-
   .gasto-monto { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--accent4); }
+  .participante-chip { display: inline-block; background: #e8f0ff; color: var(--accent4); border-radius: 50px; padding: 2px 10px; font-size: 0.75rem; font-weight: 800; margin: 2px; }
 
-  .participante-chip {
-    display: inline-block; background: #e8f0ff; color: var(--accent4);
-    border-radius: 50px; padding: 2px 10px; font-size: 0.75rem; font-weight: 800; margin: 2px;
-  }
-
-  /* TOTAL */
-  .total-box {
-    background: linear-gradient(135deg, #ff6b6b, #ff8e53); color: #fff;
-    border-radius: var(--radius); padding: 22px 32px; margin-bottom: 30px;
-    display: flex; align-items: center; justify-content: space-between;
-    box-shadow: 0 8px 24px rgba(255,107,107,0.35); flex-wrap: wrap; gap: 12px;
-  }
+  .total-box { background: linear-gradient(135deg, #ff6b6b, #ff8e53); color: #fff; border-radius: var(--radius); padding: 22px 32px; margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 8px 24px rgba(255,107,107,0.35); flex-wrap: wrap; gap: 12px; }
   .total-box .label { font-family: 'Fredoka One', cursive; font-size: 1.1rem; opacity: 0.9; }
   .total-box .amount { font-family: 'Fredoka One', cursive; font-size: 2.4rem; }
   .total-box .per-person { font-size: 0.9rem; opacity: 0.85; font-weight: 700; }
 
-  /* PERSONAS */
   .people-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 22px; margin-bottom: 30px; }
-
-  .person-card {
-    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
-    padding: 22px 18px 18px; display: flex; flex-direction: column; align-items: center;
-    gap: 10px; position: relative; border: 3px solid transparent;
-    transition: border-color 0.2s, transform 0.2s;
-    animation: popIn 0.35s cubic-bezier(.175,.885,.32,1.275);
-  }
+  .person-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 18px 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; border: 3px solid transparent; transition: border-color 0.2s, transform 0.2s; animation: popIn 0.35s cubic-bezier(.175,.885,.32,1.275); }
   @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   .person-card:hover { transform: translateY(-4px); border-color: var(--accent2); }
 
   .stickman-wrap { position: relative; width: 100px; height: 160px; cursor: pointer; flex-shrink: 0; }
   .stickman-wrap:hover .avatar-hint { opacity: 1; }
-
-  .face-circle {
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 60px; height: 60px; border-radius: 50%; overflow: hidden;
-    border: 3.5px solid var(--accent2); background: #f0f0f0; z-index: 2; transition: border-color 0.2s;
-  }
+  .face-circle { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 3.5px solid var(--accent2); background: #f0f0f0; z-index: 2; transition: border-color 0.2s; }
   .stickman-wrap:hover .face-circle { border-color: var(--accent4); }
   .face-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .face-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
-
   .stickman-svg { position: absolute; top: 52px; left: 50%; transform: translateX(-50%); width: 90px; height: 110px; }
-
-  .avatar-hint {
-    position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.5);
-    color: #fff; font-size: 0.6rem; font-weight: 800; text-align: center;
-    padding: 3px 0; opacity: 0; transition: opacity 0.2s; border-radius: 0 0 8px 8px;
-  }
-
+  .avatar-hint { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.5); color: #fff; font-size: 0.6rem; font-weight: 800; text-align: center; padding: 3px 0; opacity: 0; transition: opacity 0.2s; border-radius: 0 0 8px 8px; }
   .hidden-input { display: none; }
 
-  .person-name {
-    font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: var(--text);
-    text-align: center; cursor: pointer; border-radius: 8px; padding: 2px 6px; transition: background 0.15s;
-  }
+  .person-name { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: var(--text); text-align: center; cursor: pointer; border-radius: 8px; padding: 2px 6px; transition: background 0.15s; }
   .person-name:hover { background: #fff5f5; }
-
-  .person-balance {
-    font-family: 'Fredoka One', cursive; font-size: 1rem; text-align: center;
-  }
+  .person-balance { font-family: 'Fredoka One', cursive; font-size: 1rem; text-align: center; }
   .balance-pos { color: var(--accent3); }
   .balance-neg { color: var(--accent); }
   .balance-neu { color: var(--muted); }
 
-  .delete-btn {
-    position: absolute; top: 10px; right: 10px; background: #ffe0e0; border: none;
-    border-radius: 50%; width: 26px; height: 26px; font-size: 0.75rem; cursor: pointer;
-    color: var(--accent); font-weight: 800; transition: background 0.15s;
-    display: flex; align-items: center; justify-content: center;
-  }
+  .delete-btn { position: absolute; top: 10px; right: 10px; background: #ffe0e0; border: none; border-radius: 50%; width: 26px; height: 26px; font-size: 0.75rem; cursor: pointer; color: var(--accent); font-weight: 800; transition: background 0.15s; display: flex; align-items: center; justify-content: center; }
   .delete-btn:hover { background: var(--accent); color: #fff; }
-
   .color-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
 
   .empty-state { text-align: center; padding: 50px 20px; color: var(--muted); font-size: 1rem; font-weight: 700; }
   .empty-state .emoji { font-size: 3rem; display: block; margin-bottom: 10px; }
 
-  /* RESUMEN */
   .summary-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 32px; border: 3px solid var(--accent3); margin-bottom: 24px; }
   .summary-box h2 { font-family: 'Fredoka One', cursive; font-size: 1.4rem; margin-bottom: 18px; color: var(--text); }
-
   .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 2px dashed #f0f0f0; font-weight: 700; }
   .summary-row:last-child { border-bottom: none; }
   .summary-name { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
   .summary-val  { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--accent4); }
 
-  /* TRANSFERENCIAS */
   .transfers-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 32px; border: 3px solid var(--accent2); margin-bottom: 24px; }
   .transfers-box h2 { font-family: 'Fredoka One', cursive; font-size: 1.4rem; margin-bottom: 18px; color: var(--text); }
-
-  .transfer-row {
-    display: flex; align-items: center; gap: 12px; padding: 12px 0;
-    border-bottom: 2px dashed #f0f0f0; flex-wrap: wrap;
-  }
+  .transfer-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 2px dashed #f0f0f0; flex-wrap: wrap; }
   .transfer-row:last-child { border-bottom: none; }
   .transfer-from { font-family: 'Fredoka One', cursive; color: var(--accent); font-size: 1rem; }
   .transfer-arrow { color: var(--muted); font-size: 1.2rem; }
   .transfer-to { font-family: 'Fredoka One', cursive; color: var(--accent3); font-size: 1rem; }
   .transfer-amount { font-family: 'Fredoka One', cursive; color: var(--accent4); font-size: 1.1rem; margin-left: auto; }
 
-  .saved-badge {
-    position: fixed; bottom: 24px; right: 24px; background: var(--accent3); color: #fff;
-    font-family: 'Fredoka One', cursive; font-size: 0.95rem; padding: 10px 20px; border-radius: 50px;
-    box-shadow: 0 4px 16px rgba(107,203,119,0.4); opacity: 0; transform: translateY(10px);
-    transition: opacity 0.3s, transform 0.3s; pointer-events: none;
-  }
+  .saved-badge { position: fixed; bottom: 24px; right: 24px; background: var(--accent3); color: #fff; font-family: 'Fredoka One', cursive; font-size: 0.95rem; padding: 10px 20px; border-radius: 50px; box-shadow: 0 4px 16px rgba(107,203,119,0.4); opacity: 0; transform: translateY(10px); transition: opacity 0.3s, transform 0.3s; pointer-events: none; }
   .saved-badge.show { opacity: 1; transform: translateY(0); }
-
   .reset-btn-wrap { text-align: center; margin-top: 24px; }
   .loading { text-align: center; padding: 60px 20px; font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--muted); }
 
@@ -392,7 +243,6 @@
   const db   = getFirestore(app);
 
   const COLORS = ['#4d96ff','#ff6b6b','#6bcb77','#ffd93d','#c77dff','#ff9f43','#48dbfb','#ff6eb4'];
-
   const CATEGORIAS = {
     amigos:     { label: 'Reunión con amigos', emoji: '🎉', desc: 'Juntadas, salidas, fiestas', clase: 'amigos' },
     vacaciones: { label: 'Vacaciones',          emoji: '🏖️', desc: 'Viajes, escapadas, aventuras', clase: 'vacaciones' },
@@ -405,16 +255,11 @@
   let categoriaActual = null;
   let tabActual = 'personas';
 
-  // ── FIRESTORE ──
   async function cargarDeFirestore(cat) {
     const ref  = doc(db, 'usuarios', currentUser.uid, 'categorias', cat);
     const snap = await getDoc(ref);
-    if (snap.exists()) {
-      people = snap.data().people || [];
-      gastos = snap.data().gastos || [];
-    } else {
-      people = []; gastos = [];
-    }
+    if (snap.exists()) { people = snap.data().people || []; gastos = snap.data().gastos || []; }
+    else { people = []; gastos = []; }
     renderApp();
   }
 
@@ -424,21 +269,17 @@
     mostrarBadge();
   }
 
-  // ── AUTH ──
   onAuthStateChanged(auth, user => {
     currentUser = user;
     if (user) { categoriaActual = null; renderCategorias(); }
     else { document.body.className = 'default'; renderLogin(); }
   });
 
-  function loginConGoogle() {
-    signInWithPopup(auth, new GoogleAuthProvider()).catch(err => alert('Error: ' + err.message));
-  }
+  function loginConGoogle() { signInWithPopup(auth, new GoogleAuthProvider()).catch(err => alert('Error: ' + err.message)); }
   function cerrarSesion() { signOut(auth); }
 
   function elegirCategoria(cat) {
-    categoriaActual = cat;
-    tabActual = 'personas';
+    categoriaActual = cat; tabActual = 'personas';
     document.body.className = 'cat-' + CATEGORIAS[cat].clase;
     cargarDeFirestore(cat);
   }
@@ -455,45 +296,31 @@
     setTimeout(() => badge.classList.remove('show'), 2000);
   }
 
-  // ── CÁLCULO DE DEUDAS ──
   function calcularDeudas() {
-    // Calcular balance de cada persona
     const balance = {};
     people.forEach(p => balance[p.id] = 0);
-
     gastos.forEach(g => {
       const n = g.participantes.length;
       if (n === 0) return;
       const parte = g.monto / n;
-      // El que pagó suma lo que pagó
       balance[g.pagadorId] = (balance[g.pagadorId] || 0) + g.monto;
-      // Cada participante resta su parte
-      g.participantes.forEach(pid => {
-        balance[pid] = (balance[pid] || 0) - parte;
-      });
+      g.participantes.forEach(pid => { balance[pid] = (balance[pid] || 0) - parte; });
     });
-
-    // Minimizar transferencias
-    const deudores  = Object.entries(balance).filter(([,v]) => v < -0.01).map(([id,v]) => ({ id, val: v })).sort((a,b) => a.val - b.val);
-    const acreedores = Object.entries(balance).filter(([,v]) => v > 0.01).map(([id,v]) => ({ id, val: v })).sort((a,b) => b.val - a.val);
-
+    const deudores   = Object.entries(balance).filter(([,v]) => v < -0.01).map(([id,v]) => ({ id, val: v })).sort((a,b) => a.val - b.val);
+    const acreedores = Object.entries(balance).filter(([,v]) => v > 0.01).map(([id,v])  => ({ id, val: v })).sort((a,b) => b.val - a.val);
     const transferencias = [];
     let i = 0, j = 0;
     while (i < deudores.length && j < acreedores.length) {
-      const debe   = -deudores[i].val;
-      const acreedor = acreedores[j].val;
-      const monto  = Math.min(debe, acreedor);
+      const monto = Math.min(-deudores[i].val, acreedores[j].val);
       transferencias.push({ de: deudores[i].id, a: acreedores[j].id, monto });
       deudores[i].val  += monto;
       acreedores[j].val -= monto;
       if (Math.abs(deudores[i].val)  < 0.01) i++;
       if (Math.abs(acreedores[j].val) < 0.01) j++;
     }
-
     return { balance, transferencias };
   }
 
-  // ── PERSONAS ──
   function agregarPersona() {
     const nombre = document.getElementById('inputNombre').value.trim();
     if (!nombre) { alert('¡Escribí un nombre!'); return; }
@@ -504,7 +331,7 @@
 
   function eliminarPersona(id) {
     if (gastos.some(g => g.pagadorId === id || g.participantes.includes(id))) {
-      if (!confirm('Esta persona tiene gastos asociados. ¿Seguro que la querés borrar?')) return;
+      if (!confirm('Esta persona tiene gastos asociados. ¿Seguro?')) return;
       gastos = gastos.filter(g => g.pagadorId !== id);
       gastos.forEach(g => g.participantes = g.participantes.filter(p => p !== id));
     }
@@ -524,12 +351,15 @@
     input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); ok(); } if (e.key === 'Escape') renderApp(); });
   }
 
-  // ── GASTOS ──
   function agregarGasto() {
     const nombre = document.getElementById('gastoNombre').value.trim();
     const monto  = parseFloat(document.getElementById('gastoMonto').value);
     const pagadorId = Number(document.getElementById('gastoPagador').value);
-    const participantes = [...document.querySelectorAll('.part-check:checked')].map(c => Number(c.value));
+
+    // Leer participantes desde el estado interno, no del DOM
+    const participantes = people
+      .filter(p => document.getElementById('part-' + p.id)?.dataset.checked === 'true')
+      .map(p => p.id);
 
     if (!nombre) { alert('¡Escribí un nombre para el gasto!'); return; }
     if (!monto || monto <= 0) { alert('¡Escribí un monto válido!'); return; }
@@ -553,7 +383,6 @@
     await guardarEnFirestore(); renderApp();
   }
 
-  // ── STICKMAN ──
   function stickmanHTML(p) {
     const c = p.color;
     const fotoContent = p.foto ? `<img src="${p.foto}" alt="${p.nombre}">` : `<div class="face-placeholder">🙂</div>`;
@@ -575,19 +404,10 @@
       </div>`;
   }
 
-  function formatMoney(n) {
-    return '$' + n.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
+  function formatMoney(n) { return '$' + n.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function nombrePorId(id) { return people.find(p => p.id === id)?.nombre || '?'; }
+  function colorPorId(id)  { return people.find(p => p.id === id)?.color  || '#999'; }
 
-  function nombrePorId(id) {
-    return people.find(p => p.id === id)?.nombre || '?';
-  }
-
-  function colorPorId(id) {
-    return people.find(p => p.id === id)?.color || '#999';
-  }
-
-  // ── RENDER LOGIN ──
   function renderLogin() {
     document.getElementById('app').innerHTML = `
       <div class="login-box">
@@ -601,7 +421,6 @@
     document.getElementById('btnGoogle').addEventListener('click', loginConGoogle);
   }
 
-  // ── RENDER CATEGORIAS ──
   function renderCategorias() {
     document.getElementById('app').innerHTML = `
       <div class="user-bar">
@@ -621,8 +440,7 @@
               <span class="cat-emoji">${cat.emoji}</span>
               <div class="cat-title">${cat.label}</div>
               <div class="cat-desc">${cat.desc}</div>
-            </div>
-          `).join('')}
+            </div>`).join('')}
         </div>
       </div>`;
     document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
@@ -631,7 +449,6 @@
     });
   }
 
-  // ── RENDER APP ──
   function renderApp() {
     const cat = CATEGORIAS[categoriaActual];
     const { balance, transferencias } = calcularDeudas();
@@ -649,122 +466,104 @@
           <button class="btn btn-primary" id="btnAgregarPersona">Agregar</button>
         </div>
       </div>
-
       ${people.length === 0
         ? `<div class="empty-state"><span class="emoji">👤</span>Agregá personas para empezar</div>`
-        : `<div class="people-grid">
-          ${people.map(p => {
+        : `<div class="people-grid">${people.map(p => {
             const bal = balance[p.id] || 0;
             const balLabel = bal > 0.01
               ? `<span class="person-balance balance-pos">Le deben ${formatMoney(bal)}</span>`
               : bal < -0.01
               ? `<span class="person-balance balance-neg">Debe ${formatMoney(Math.abs(bal))}</span>`
               : `<span class="person-balance balance-neu">Está al día ✓</span>`;
-            return `
-              <div class="person-card">
-                <button class="delete-btn" data-id="${p.id}">✕</button>
-                ${stickmanHTML(p)}
-                <div class="person-name" data-edit-nombre="${p.id}">${p.nombre} ✏️</div>
-                ${gastos.length > 0 ? balLabel : ''}
-              </div>`;
-          }).join('')}
-        </div>`
-      }`;
+            return `<div class="person-card">
+              <button class="delete-btn" data-id="${p.id}">✕</button>
+              ${stickmanHTML(p)}
+              <div class="person-name" data-edit-nombre="${p.id}">${p.nombre} ✏️</div>
+              ${gastos.length > 0 ? balLabel : ''}
+            </div>`;
+          }).join('')}</div>`}`;
 
     // ── TAB GASTOS ──
-    const opcionesPagador = people.map(p => `<option value="${p.id}">${p.nombre}</option>`).join('');
-    const checkboxesParticipantes = people.map(p => `
-      <label class="participante-check checked" data-id="${p.id}">
-        <input type="checkbox" class="part-check" value="${p.id}" checked>
-        ${p.nombre}
-      </label>`).join('');
-
-    const listaGastos = gastos.length === 0
-      ? `<div class="empty-state"><span class="emoji">🧾</span>No hay gastos todavía</div>`
-      : `<div class="gastos-list">
-        ${gastos.map(g => `
-          <div class="gasto-item">
-            <div class="gasto-info">
-              <div class="gasto-nombre">${g.nombre}</div>
-              <div class="gasto-detalle">
-                Pagó: <strong style="color:${colorPorId(g.pagadorId)}">${nombrePorId(g.pagadorId)}</strong> •
-                Participantes: ${g.participantes.map(pid => `<span class="participante-chip">${nombrePorId(pid)}</span>`).join('')}
-              </div>
-            </div>
-            <div style="display:flex;align-items:center;gap:10px">
-              <div class="gasto-monto">${formatMoney(g.monto)}</div>
-              <button class="delete-btn" style="position:relative;top:0;right:0" data-gasto-id="${g.id}">✕</button>
-            </div>
-          </div>`).join('')}
-      </div>`;
-
     const tabGastos = people.length === 0
-      ? `<div class="empty-state"><span class="emoji">👤</span>Primero agregá personas en la pestaña anterior</div>`
-      : `
-      <div class="gastos-panel">
-        <h2>🧾 Agregar gasto</h2>
-        <div class="input-row" style="margin-bottom:14px">
-          <div class="input-group">
-            <label>Descripción</label>
-            <input type="text" id="gastoNombre" placeholder="Ej: Vino, Pizza..." />
+      ? `<div class="empty-state"><span class="emoji">👤</span>Primero agregá personas</div>`
+      : `<div class="gastos-panel">
+          <h2>🧾 Agregar gasto</h2>
+          <div class="input-row" style="margin-bottom:14px">
+            <div class="input-group">
+              <label>Descripción</label>
+              <input type="text" id="gastoNombre" placeholder="Ej: Vino, Pizza..." />
+            </div>
+            <div class="input-group" style="max-width:160px">
+              <label>Monto ($)</label>
+              <input type="number" id="gastoMonto" placeholder="0.00" min="0" step="0.01" />
+            </div>
+            <div class="input-group" style="max-width:160px">
+              <label>¿Quién pagó?</label>
+              <select id="gastoPagador"><option value="">Elegir...</option>${people.map(p => `<option value="${p.id}">${p.nombre}</option>`).join('')}</select>
+            </div>
           </div>
-          <div class="input-group" style="max-width:160px">
-            <label>Monto ($)</label>
-            <input type="number" id="gastoMonto" placeholder="0.00" min="0" step="0.01" />
+          <div class="participantes-wrap">
+            <span class="part-label">¿Quiénes participaron?</span>
+            <div class="participantes-list">
+              ${people.map(p => `
+                <div class="participante-check checked" id="part-${p.id}" data-checked="true" data-pid="${p.id}">
+                  ${p.nombre}
+                </div>`).join('')}
+            </div>
           </div>
-          <div class="input-group" style="max-width:160px">
-            <label>¿Quién pagó?</label>
-            <select id="gastoPagador"><option value="">Elegir...</option>${opcionesPagador}</select>
+          <div style="margin-top:16px">
+            <button class="btn btn-primary" id="btnAgregarGasto">Agregar gasto</button>
           </div>
         </div>
-        <div class="participantes-wrap">
-          <label class="main">¿Quiénes participaron?</label>
-          <div class="participantes-list">${checkboxesParticipantes}</div>
-        </div>
-        <div style="margin-top:16px">
-          <button class="btn btn-primary" id="btnAgregarGasto">Agregar gasto</button>
-        </div>
-      </div>
-      ${listaGastos}`;
+        ${gastos.length === 0
+          ? `<div class="empty-state"><span class="emoji">🧾</span>No hay gastos todavía</div>`
+          : `<div class="gastos-list">${gastos.map(g => `
+              <div class="gasto-item">
+                <div class="gasto-info">
+                  <div class="gasto-nombre">${g.nombre}</div>
+                  <div class="gasto-detalle">
+                    Pagó: <strong style="color:${colorPorId(g.pagadorId)}">${nombrePorId(g.pagadorId)}</strong> •
+                    Participantes: ${g.participantes.map(pid => `<span class="participante-chip">${nombrePorId(pid)}</span>`).join('')}
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div class="gasto-monto">${formatMoney(g.monto)}</div>
+                  <button class="delete-btn" style="position:relative;top:0;right:0" data-gasto-id="${g.id}">✕</button>
+                </div>
+              </div>`).join('')}</div>`}`;
 
     // ── TAB RESUMEN ──
     const tabResumen = gastos.length === 0
       ? `<div class="empty-state"><span class="emoji">📋</span>Cargá gastos para ver el resumen</div>`
-      : `
-      ${totalGastado > 0 ? `
-      <div class="total-box">
-        <div>
-          <div class="label">Total gastado</div>
-          <div class="per-person">${people.length} personas</div>
+      : `${totalGastado > 0 ? `
+        <div class="total-box">
+          <div><div class="label">Total gastado</div><div class="per-person">${people.length} personas</div></div>
+          <div class="amount">${formatMoney(totalGastado)}</div>
+        </div>` : ''}
+        <div class="summary-box">
+          <h2>📊 Balance por persona</h2>
+          ${people.map(p => {
+            const bal = balance[p.id] || 0;
+            const color = bal > 0.01 ? 'var(--accent3)' : bal < -0.01 ? 'var(--accent)' : 'var(--muted)';
+            const label = bal > 0.01 ? `le deben ${formatMoney(bal)}` : bal < -0.01 ? `debe ${formatMoney(Math.abs(bal))}` : 'está al día ✓';
+            return `<div class="summary-row">
+              <div class="summary-name"><span class="color-dot" style="background:${p.color}"></span>${p.nombre}</div>
+              <div style="text-align:right;font-family:'Fredoka One',cursive;color:${color}">${label}</div>
+            </div>`;
+          }).join('')}
         </div>
-        <div class="amount">${formatMoney(totalGastado)}</div>
-      </div>` : ''}
-
-      <div class="summary-box">
-        <h2>📊 Balance por persona</h2>
-        ${people.map(p => {
-          const bal = balance[p.id] || 0;
-          const color = bal > 0.01 ? 'var(--accent3)' : bal < -0.01 ? 'var(--accent)' : 'var(--muted)';
-          const label = bal > 0.01 ? `le deben ${formatMoney(bal)}` : bal < -0.01 ? `debe ${formatMoney(Math.abs(bal))}` : 'está al día ✓';
-          return `<div class="summary-row">
-            <div class="summary-name"><span class="color-dot" style="background:${p.color}"></span>${p.nombre}</div>
-            <div style="text-align:right;font-family:'Fredoka One',cursive;color:${color}">${label}</div>
-          </div>`;
-        }).join('')}
-      </div>
-
-      ${transferencias.length > 0 ? `
-      <div class="transfers-box">
-        <h2>💸 ¿Quién le paga a quién?</h2>
-        ${transferencias.map(t => `
-          <div class="transfer-row">
-            <span class="transfer-from">${nombrePorId(Number(t.de))}</span>
-            <span class="transfer-arrow">→</span>
-            <span class="transfer-to">${nombrePorId(Number(t.a))}</span>
-            <span class="transfer-amount">${formatMoney(t.monto)}</span>
-          </div>`).join('')}
-      </div>` : `<div class="empty-state"><span class="emoji">✅</span>¡Todos están al día!</div>`}
-      `;
+        ${transferencias.length > 0
+          ? `<div class="transfers-box">
+              <h2>💸 ¿Quién le paga a quién?</h2>
+              ${transferencias.map(t => `
+                <div class="transfer-row">
+                  <span class="transfer-from">${nombrePorId(Number(t.de))}</span>
+                  <span class="transfer-arrow">→</span>
+                  <span class="transfer-to">${nombrePorId(Number(t.a))}</span>
+                  <span class="transfer-amount">${formatMoney(t.monto)}</span>
+                </div>`).join('')}
+            </div>`
+          : `<div class="empty-state"><span class="emoji">✅</span>¡Todos están al día!</div>`}`;
 
     document.getElementById('app').innerHTML = `
       <div class="user-bar">
@@ -778,36 +577,31 @@
           <button class="btn-logout" id="btnLogout">Salir</button>
         </div>
       </div>
-
       <div class="tabs">
         <button class="tab-btn ${tabActual==='personas'?'active':''}" data-tab="personas">👤 Personas</button>
         <button class="tab-btn ${tabActual==='gastos'?'active':''}" data-tab="gastos">🧾 Gastos</button>
         <button class="tab-btn ${tabActual==='resumen'?'active':''}" data-tab="resumen">📋 Resumen</button>
       </div>
-
       <div id="tabContent">
         ${tabActual === 'personas' ? tabPersonas : tabActual === 'gastos' ? tabGastos : tabResumen}
       </div>
-
       ${people.length > 0 || gastos.length > 0 ? `
       <div class="reset-btn-wrap">
         <button class="btn btn-danger" id="btnReset">🗑️ Borrar todo</button>
       </div>` : ''}
     `;
 
-    // Eventos fijos
+    // ── EVENTOS ──
     document.getElementById('btnBack').addEventListener('click', volverACategorias);
     document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
     document.getElementById('btnReset')?.addEventListener('click', resetearTodo);
-
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => { tabActual = btn.dataset.tab; renderApp(); });
     });
 
-    // Eventos personas
+    // Personas
     document.getElementById('btnAgregarPersona')?.addEventListener('click', agregarPersona);
     document.getElementById('inputNombre')?.addEventListener('keydown', e => { if (e.key === 'Enter') agregarPersona(); });
-
     document.querySelectorAll('.delete-btn[data-id]').forEach(btn => {
       btn.addEventListener('click', () => eliminarPersona(Number(btn.dataset.id)));
     });
@@ -815,7 +609,7 @@
       el.addEventListener('click', () => editarNombrePersona(Number(el.dataset.editNombre), el));
     });
     document.querySelectorAll('[data-foto]').forEach(wrap => {
-      wrap.addEventListener('click', () => document.getElementById('file-' + wrap.dataset.foto).click());
+      wrap.addEventListener('click', () => document.getElementById('file-' + wrap.dataset.foto)?.click());
     });
     document.querySelectorAll('[id^="file-"]').forEach(input => {
       input.addEventListener('change', () => {
@@ -831,19 +625,19 @@
       });
     });
 
-    // Eventos gastos
-document.getElementById('btnAgregarGasto')?.addEventListener('click', agregarGasto);
-document.querySelectorAll('.delete-btn[data-gasto-id]').forEach(btn => {
-  btn.addEventListener('click', () => eliminarGasto(Number(btn.dataset.gastoId)));
-});
-document.querySelectorAll('.participante-check').forEach(label => {
-  label.addEventListener('click', (e) => {
-    e.preventDefault();
-    const checkbox = label.querySelector('input');
-    checkbox.checked = !checkbox.checked;
-    label.classList.toggle('checked', checkbox.checked);
-  });
-});
+    // Gastos — participantes con data-checked
+    document.querySelectorAll('.participante-check').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const isChecked = btn.dataset.checked === 'true';
+        btn.dataset.checked = isChecked ? 'false' : 'true';
+        btn.classList.toggle('checked', !isChecked);
+      });
+    });
+
+    document.getElementById('btnAgregarGasto')?.addEventListener('click', agregarGasto);
+    document.querySelectorAll('.delete-btn[data-gasto-id]').forEach(btn => {
+      btn.addEventListener('click', () => eliminarGasto(Number(btn.dataset.gastoId)));
+    });
   }
 </script>
 </body>
