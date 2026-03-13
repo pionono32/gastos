@@ -832,7 +832,6 @@
     });
 
     // Eventos gastos
-   // Eventos gastos
 document.getElementById('btnAgregarGasto')?.addEventListener('click', agregarGasto);
 document.querySelectorAll('.delete-btn[data-gasto-id]').forEach(btn => {
   btn.addEventListener('click', () => eliminarGasto(Number(btn.dataset.gastoId)));
