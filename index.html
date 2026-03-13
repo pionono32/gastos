@@ -51,6 +51,89 @@
 
   .container { max-width: 900px; margin: 0 auto; }
 
+  /* LOGIN */
+  .login-box {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 50px 32px;
+    text-align: center;
+    border: 3px solid var(--accent2);
+    max-width: 400px;
+    margin: 60px auto;
+  }
+
+  .login-box h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+
+  .login-box p {
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 28px;
+    font-size: 0.95rem;
+  }
+
+  .btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #fff;
+    border: 2.5px solid #e0e0e0;
+    border-radius: 14px;
+    padding: 14px 24px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: box-shadow 0.2s, transform 0.15s;
+    color: var(--text);
+  }
+
+  .btn-google:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+  }
+
+  .btn-google img { width: 24px; height: 24px; }
+
+  /* USUARIO LOGUEADO */
+  .user-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .user-bar img {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--accent2);
+  }
+
+  .user-name {
+    font-weight: 800;
+    font-size: 0.95rem;
+  }
+
+  .btn-logout {
+    background: #f0f0f0;
+    border: none;
+    border-radius: 10px;
+    padding: 7px 14px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--muted);
+    transition: background 0.15s;
+  }
+  .btn-logout:hover { background: #ffe0e0; color: var(--accent); }
+
   .top-panel {
     background: var(--card);
     border-radius: var(--radius);
@@ -339,6 +422,14 @@
 
   .reset-btn-wrap { text-align: center; margin-top: 24px; }
 
+  .loading {
+    text-align: center;
+    padding: 60px 20px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--muted);
+  }
+
   @media (max-width: 600px) {
     h1 { font-size: 2rem; }
     .top-panel { padding: 20px; }
@@ -351,78 +442,95 @@
 <div class="container">
   <h1>💸 Dividir Gastos</h1>
   <p class="subtitle">Agregá personas, subí fotos y dividí fácil</p>
-
-  <div class="top-panel">
-    <h2>➕ Agregar persona y gasto</h2>
-    <div class="input-row">
-      <div class="input-group">
-        <label>Nombre</label>
-        <input type="text" id="inputNombre" placeholder="Ej: Martín" />
-      </div>
-      <div class="input-group" style="max-width:180px">
-        <label>Lo que gastó ($)</label>
-        <input type="number" id="inputMonto" placeholder="0.00" min="0" step="0.01" />
-      </div>
-      <button class="btn btn-primary" onclick="agregarPersona()">Agregar</button>
-    </div>
-  </div>
-
-  <div class="total-box" id="totalBox" style="display:none">
-    <div>
-      <div class="label">Total gastado</div>
-      <div class="per-person" id="perPersonLabel"></div>
-    </div>
-    <div class="amount" id="totalAmount">$0</div>
-  </div>
-
-  <div class="people-grid" id="peopleGrid">
-    <div class="empty-state">
-      <span class="emoji">🙈</span>
-      Todavía no hay nadie. ¡Agregá la primera persona!
-    </div>
-  </div>
-
-  <div class="summary-box" id="summaryBox" style="display:none">
-    <h2>📋 Resumen</h2>
-    <div id="summaryList"></div>
-  </div>
-
-  <div class="reset-btn-wrap" id="resetWrap" style="display:none">
-    <button class="btn btn-danger" onclick="resetearTodo()">🗑️ Borrar todo y empezar de cero</button>
-  </div>
+  <div id="app"><div class="loading">Cargando... ⏳</div></div>
 </div>
 
 <div class="saved-badge" id="savedBadge">✅ Guardado</div>
 
-<script>
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // ── TU CONFIGURACIÓN DE FIREBASE ──
+  const firebaseConfig = {
+    apiKey: "AIzaSyBsH-vABIi1YskINQD3LI_hXmM6jE0MKLY",
+    authDomain: "pagina-para-dividir-gas.firebaseapp.com",
+    projectId: "pagina-para-dividir-gas",
+    storageBucket: "pagina-para-dividir-gas.firebasestorage.app",
+    messagingSenderId: "497709394928",
+    appId: "1:497709394928:web:b5c135eae219590ded0b35",
+    measurementId: "G-5WZ9QMW8G7"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
   const COLORS = ['#4d96ff','#ff6b6b','#6bcb77','#ffd93d','#c77dff','#ff9f43','#48dbfb','#ff6eb4'];
-  const STORAGE_KEY = 'gastos_app_data';
   let people = [];
+  let currentUser = null;
 
-  function guardar() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(people));
-    mostrarBadge();
-  }
-
-  function cargarDatos() {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      try { people = JSON.parse(raw); } catch(e) { people = []; }
+  // ── FIRESTORE ──
+  async function cargarDeFirestore() {
+    const ref = doc(db, 'usuarios', currentUser.uid);
+    const snap = await getDoc(ref);
+    if (snap.exists()) {
+      people = snap.data().people || [];
+    } else {
+      people = [];
     }
     renderAll();
   }
 
+  async function guardarEnFirestore() {
+    const ref = doc(db, 'usuarios', currentUser.uid);
+    await setDoc(ref, { people });
+    mostrarBadge();
+  }
+
+  // ── AUTH ──
+  onAuthStateChanged(auth, user => {
+    currentUser = user;
+    if (user) {
+      cargarDeFirestore();
+    } else {
+      renderLogin();
+    }
+  });
+
+  function loginConGoogle() {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider).catch(err => {
+      alert('Error al iniciar sesión: ' + err.message);
+    });
+  }
+
+  function cerrarSesion() {
+    signOut(auth);
+  }
+
+  // ── UI ──
   function mostrarBadge() {
     const badge = document.getElementById('savedBadge');
     badge.classList.add('show');
     setTimeout(() => badge.classList.remove('show'), 2000);
   }
 
-  function resetearTodo() {
-    if (!confirm('¿Seguro que querés borrar todo y empezar de cero?')) return;
-    people = [];
-    localStorage.removeItem(STORAGE_KEY);
-    renderAll();
+  function renderLogin() {
+    document.getElementById('app').innerHTML = `
+      <div class="login-box">
+        <h2>👋 Bienvenido!</h2>
+        <p>Iniciá sesión para guardar y ver tus gastos</p>
+        <button class="btn-google" id="btnGoogle">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+          Continuar con Google
+        </button>
+      </div>`;
+    document.getElementById('btnGoogle').addEventListener('click', loginConGoogle);
   }
 
   function agregarPersona() {
@@ -432,13 +540,13 @@
     people.push({ id: Date.now(), nombre, monto, foto: null, color: COLORS[people.length % COLORS.length] });
     document.getElementById('inputNombre').value = '';
     document.getElementById('inputMonto').value  = '';
-    guardar();
+    guardarEnFirestore();
     renderAll();
   }
 
   function eliminarPersona(id) {
     people = people.filter(p => p.id !== id);
-    guardar();
+    guardarEnFirestore();
     renderAll();
   }
 
@@ -452,7 +560,7 @@
     const reader = new FileReader();
     reader.onload = e => {
       const p = people.find(x => x.id === id);
-      if (p) { p.foto = e.target.result; guardar(); renderAll(); }
+      if (p) { p.foto = e.target.result; guardarEnFirestore(); renderAll(); }
     };
     reader.readAsDataURL(file);
   }
@@ -461,20 +569,13 @@
     if (el.querySelector('input')) return;
     const p = people.find(x => x.id === id);
     const input = document.createElement('input');
-    input.type = 'number';
-    input.value = p.monto;
-    input.min = '0';
-    input.step = '0.01';
+    input.type = 'number'; input.value = p.monto; input.min = '0'; input.step = '0.01';
     input.style.cssText = 'width:110px;padding:6px 10px;border:2.5px solid var(--accent4);border-radius:10px;font-family:Fredoka One,cursive;font-size:1.1rem;color:var(--accent4);text-align:center;outline:none;background:#f0f7ff;';
-    el.innerHTML = '';
-    el.appendChild(input);
-    input.focus();
-    input.select();
+    el.innerHTML = ''; el.appendChild(input); input.focus(); input.select();
     const confirmar = () => {
       const nuevo = parseFloat(input.value);
       if (!isNaN(nuevo) && nuevo >= 0) p.monto = nuevo;
-      guardar();
-      renderAll();
+      guardarEnFirestore(); renderAll();
     };
     input.addEventListener('blur', confirmar);
     input.addEventListener('keydown', e => {
@@ -487,18 +588,13 @@
     if (el.querySelector('input')) return;
     const p = people.find(x => x.id === id);
     const input = document.createElement('input');
-    input.type = 'text';
-    input.value = p.nombre;
+    input.type = 'text'; input.value = p.nombre;
     input.style.cssText = 'width:130px;padding:6px 10px;border:2.5px solid var(--accent);border-radius:10px;font-family:Fredoka One,cursive;font-size:1rem;color:var(--text);text-align:center;outline:none;background:#fff5f5;';
-    el.innerHTML = '';
-    el.appendChild(input);
-    input.focus();
-    input.select();
+    el.innerHTML = ''; el.appendChild(input); input.focus(); input.select();
     const confirmar = () => {
       const nuevo = input.value.trim();
       if (nuevo) p.nombre = nuevo;
-      guardar();
-      renderAll();
+      guardarEnFirestore(); renderAll();
     };
     input.addEventListener('blur', confirmar);
     input.addEventListener('keydown', e => {
@@ -507,12 +603,18 @@
     });
   }
 
+  async function resetearTodo() {
+    if (!confirm('¿Seguro que querés borrar todo y empezar de cero?')) return;
+    people = [];
+    await guardarEnFirestore();
+    renderAll();
+  }
+
   function stickmanHTML(p) {
     const c = p.color;
     const fotoContent = p.foto
       ? `<img src="${p.foto}" alt="${p.nombre}">`
       : `<div class="face-placeholder">🙂</div>`;
-
     return `
       <div class="stickman-wrap" onclick="abrirFoto(${p.id})" title="Clic para subir foto">
         <div class="face-circle">${fotoContent}</div>
@@ -537,99 +639,124 @@
   }
 
   function renderAll() {
-    const grid       = document.getElementById('peopleGrid');
-    const totalBox   = document.getElementById('totalBox');
-    const summaryBox = document.getElementById('summaryBox');
-    const resetWrap  = document.getElementById('resetWrap');
-
     const total     = people.reduce((s, p) => s + p.monto, 0);
     const porPerson = people.length ? total / people.length : 0;
 
+    const userBar = `
+      <div class="user-bar">
+        <img src="${currentUser.photoURL}" alt="${currentUser.displayName}">
+        <span class="user-name">${currentUser.displayName}</span>
+        <button class="btn-logout" id="btnLogout">Salir</button>
+      </div>`;
+
+    const totalBox = people.length > 0 ? `
+      <div class="total-box">
+        <div>
+          <div class="label">Total gastado</div>
+          <div class="per-person">${people.length > 1 ? `Corresponde ${formatMoney(porPerson)} por persona` : '1 persona'}</div>
+        </div>
+        <div class="amount">${formatMoney(total)}</div>
+      </div>` : '';
+
+    const cards = people.length === 0
+      ? `<div class="empty-state"><span class="emoji">🙈</span>Todavía no hay nadie. ¡Agregá la primera persona!</div>`
+      : people.map(p => {
+          const dif = p.monto - porPerson;
+          const difLabel = dif > 0
+            ? `<span style="color:var(--accent3)">Pone de más: ${formatMoney(dif)}</span>`
+            : dif < 0
+            ? `<span style="color:var(--accent)">Le falta: ${formatMoney(Math.abs(dif))}</span>`
+            : `<span style="color:var(--muted)">Está justo ✓</span>`;
+          return `
+            <div class="person-card">
+              <button class="delete-btn" data-id="${p.id}">✕</button>
+              ${stickmanHTML(p)}
+              <div class="person-name" data-edit-nombre="${p.id}">${p.nombre} ✏️</div>
+              <div class="person-amount" data-edit-monto="${p.id}">${formatMoney(p.monto)} ✏️</div>
+              <div class="person-extra">${difLabel}</div>
+            </div>`;
+        }).join('');
+
+    const summary = people.length > 0 ? `
+      <div class="summary-box">
+        <h2>📋 Resumen</h2>
+        ${people.map(p => {
+          const dif = p.monto - porPerson;
+          const accion = dif > 0 ? `le deben ${formatMoney(dif)}` : dif < 0 ? `debe ${formatMoney(Math.abs(dif))}` : `está al día ✓`;
+          return `<div class="summary-row">
+            <div class="summary-name"><span class="color-dot" style="background:${p.color}"></span>${p.nombre}</div>
+            <div style="text-align:right">
+              <div class="summary-val">${formatMoney(p.monto)}</div>
+              <div style="font-size:0.78rem;color:var(--muted);font-weight:700">${accion}</div>
+            </div>
+          </div>`;
+        }).join('')}
+        <div class="summary-row" style="margin-top:10px">
+          <div class="summary-name" style="font-family:'Fredoka One',cursive">🧾 Total</div>
+          <div class="summary-val">${formatMoney(total)}</div>
+        </div>
+        ${people.length > 1 ? `<div class="summary-row">
+          <div class="summary-name" style="font-family:'Fredoka One',cursive">👤 Por persona</div>
+          <div class="summary-val">${formatMoney(porPerson)}</div>
+        </div>` : ''}
+      </div>` : '';
+
+    const resetBtn = people.length > 0
+      ? `<div class="reset-btn-wrap"><button class="btn btn-danger" id="btnReset">🗑️ Borrar todo y empezar de cero</button></div>`
+      : '';
+
+    document.getElementById('app').innerHTML = `
+      ${userBar}
+      <div class="top-panel">
+        <h2>➕ Agregar persona y gasto</h2>
+        <div class="input-row">
+          <div class="input-group">
+            <label>Nombre</label>
+            <input type="text" id="inputNombre" placeholder="Ej: Martín" />
+          </div>
+          <div class="input-group" style="max-width:180px">
+            <label>Lo que gastó ($)</label>
+            <input type="number" id="inputMonto" placeholder="0.00" min="0" step="0.01" />
+          </div>
+          <button class="btn btn-primary" id="btnAgregar">Agregar</button>
+        </div>
+      </div>
+      ${totalBox}
+      <div class="people-grid">${cards}</div>
+      ${summary}
+      ${resetBtn}
+    `;
+
+    // Eventos
+    document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
+    document.getElementById('btnAgregar').addEventListener('click', agregarPersona);
     if (people.length > 0) {
-      totalBox.style.display = 'flex';
-      resetWrap.style.display = 'block';
-      document.getElementById('totalAmount').textContent = formatMoney(total);
-      document.getElementById('perPersonLabel').textContent =
-        people.length > 1 ? `Corresponde ${formatMoney(porPerson)} por persona` : '1 persona';
-    } else {
-      totalBox.style.display = 'none';
-      resetWrap.style.display = 'none';
+      document.getElementById('btnReset')?.addEventListener('click', resetearTodo);
     }
 
-    grid.innerHTML = '';
-
-    if (people.length === 0) {
-      grid.innerHTML = `<div class="empty-state"><span class="emoji">🙈</span>Todavía no hay nadie. ¡Agregá la primera persona!</div>`;
-      summaryBox.style.display = 'none';
-      return;
-    }
-
-    people.forEach(p => {
-      const diferencia = p.monto - porPerson;
-      const difLabel = diferencia > 0
-        ? `<span style="color:var(--accent3)">Pone de más: ${formatMoney(diferencia)}</span>`
-        : diferencia < 0
-        ? `<span style="color:var(--accent)">Le falta: ${formatMoney(Math.abs(diferencia))}</span>`
-        : `<span style="color:var(--muted)">Está justo ✓</span>`;
-
-      const card = document.createElement('div');
-      card.className = 'person-card';
-      card.innerHTML = `
-        <button class="delete-btn" onclick="eliminarPersona(${p.id})">✕</button>
-        ${stickmanHTML(p)}
-        <div class="person-name" onclick="editarNombre(${p.id}, this)" title="Clic para editar nombre">
-          ${p.nombre} ✏️
-        </div>
-        <div class="person-amount" onclick="editarMonto(${p.id}, this)" title="Clic para editar monto">
-          ${formatMoney(p.monto)} ✏️
-        </div>
-        <div class="person-extra">${difLabel}</div>
-      `;
-      grid.appendChild(card);
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', () => eliminarPersona(Number(btn.dataset.id)));
     });
 
-    summaryBox.style.display = 'block';
-    const list = document.getElementById('summaryList');
-    list.innerHTML = people.map(p => {
-      const dif = p.monto - porPerson;
-      const accion = dif > 0
-        ? `le deben ${formatMoney(dif)}`
-        : dif < 0
-        ? `debe ${formatMoney(Math.abs(dif))}`
-        : `está al día ✓`;
-      return `
-        <div class="summary-row">
-          <div class="summary-name">
-            <span class="color-dot" style="background:${p.color}"></span>
-            ${p.nombre}
-          </div>
-          <div style="text-align:right">
-            <div class="summary-val">${formatMoney(p.monto)}</div>
-            <div style="font-size:0.78rem;color:var(--muted);font-weight:700">${accion}</div>
-          </div>
-        </div>`;
-    }).join('') + `
-      <div class="summary-row" style="margin-top:10px">
-        <div class="summary-name" style="font-family:'Fredoka One',cursive;font-size:1rem">🧾 Total</div>
-        <div class="summary-val">${formatMoney(total)}</div>
-      </div>
-      ${people.length > 1 ? `
-      <div class="summary-row">
-        <div class="summary-name" style="font-family:'Fredoka One',cursive;font-size:1rem">👤 Por persona</div>
-        <div class="summary-val">${formatMoney(porPerson)}</div>
-      </div>` : ''}
-    `;
+    document.querySelectorAll('[data-edit-monto]').forEach(el => {
+      el.addEventListener('click', () => editarMonto(Number(el.dataset.editMonto), el));
+    });
+
+    document.querySelectorAll('[data-edit-nombre]').forEach(el => {
+      el.addEventListener('click', () => editarNombre(Number(el.dataset.editNombre), el));
+    });
+
+    document.getElementById('inputNombre')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') agregarPersona();
+    });
+    document.getElementById('inputMonto')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') agregarPersona();
+    });
   }
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Enter' &&
-       (document.activeElement === document.getElementById('inputNombre') ||
-        document.activeElement === document.getElementById('inputMonto'))) {
-      agregarPersona();
-    }
-  });
-
-  cargarDatos();
+  // Exponer funciones necesarias para los onchange del input file
+  window.abrirFoto = abrirFoto;
+  window.cargarFoto = cargarFoto;
 </script>
 </body>
 </html>
