@@ -23,10 +23,41 @@
 
   body {
     font-family: 'Nunito', sans-serif;
-    background: var(--bg);
     min-height: 100vh;
     color: var(--text);
     padding: 30px 20px 60px;
+    transition: background 0.5s;
+  }
+
+  body.cat-amigos {
+    background: #fff8f0;
+    background-image: radial-gradient(circle at 10% 20%, #ffe0e0 0%, transparent 40%),
+                      radial-gradient(circle at 90% 80%, #fff0a0 0%, transparent 40%);
+  }
+  body.cat-vacaciones {
+    background: #f0faff;
+    background-image: radial-gradient(circle at 10% 20%, #c8f0ff 0%, transparent 40%),
+                      radial-gradient(circle at 90% 80%, #d0ffe8 0%, transparent 40%);
+  }
+  body.cat-cena {
+    background: #1a1025;
+    background-image: radial-gradient(circle at 10% 20%, #2d1b4e 0%, transparent 40%),
+                      radial-gradient(circle at 90% 80%, #1a2a1a 0%, transparent 40%);
+    color: #f0e6ff;
+  }
+  body.cat-cena .person-card,
+  body.cat-cena .top-panel,
+  body.cat-cena .summary-box { background: #2a1f3d; color: #f0e6ff; border-color: #6c3fc5; }
+  body.cat-cena input[type="text"],
+  body.cat-cena input[type="number"] { background: #1a1025; color: #f0e6ff; border-color: #6c3fc5; }
+  body.cat-cena .person-name { color: #f0e6ff; }
+  body.cat-cena h1 { color: #d4a0ff; text-shadow: 3px 3px 0 #6c3fc5; }
+  body.cat-cena .subtitle { color: #9977cc; }
+  body.cat-cena .summary-row { border-color: #3d2f5e; }
+  body.cat-cena label { color: #9977cc; }
+
+  body.default {
+    background: #fdf6ec;
     background-image: radial-gradient(circle at 10% 20%, #ffe0e0 0%, transparent 40%),
                       radial-gradient(circle at 90% 80%, #d0f0ff 0%, transparent 40%);
   }
@@ -62,382 +93,236 @@
     max-width: 400px;
     margin: 60px auto;
   }
-
-  .login-box h2 {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.6rem;
-    margin-bottom: 10px;
-  }
-
-  .login-box p {
-    color: var(--muted);
-    font-weight: 600;
-    margin-bottom: 28px;
-    font-size: 0.95rem;
-  }
+  .login-box h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; margin-bottom: 10px; }
+  .login-box p { color: var(--muted); font-weight: 600; margin-bottom: 28px; font-size: 0.95rem; }
 
   .btn-google {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    background: #fff;
-    border: 2.5px solid #e0e0e0;
-    border-radius: 14px;
-    padding: 14px 24px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.1rem;
-    cursor: pointer;
-    width: 100%;
-    transition: box-shadow 0.2s, transform 0.15s;
-    color: var(--text);
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    background: #fff; border: 2.5px solid #e0e0e0; border-radius: 14px;
+    padding: 14px 24px; font-family: 'Fredoka One', cursive; font-size: 1.1rem;
+    cursor: pointer; width: 100%; transition: box-shadow 0.2s, transform 0.15s; color: var(--text);
   }
-
-  .btn-google:hover {
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-    transform: translateY(-2px);
-  }
-
+  .btn-google:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.12); transform: translateY(-2px); }
   .btn-google img { width: 24px; height: 24px; }
 
-  /* USUARIO LOGUEADO */
+  /* CATEGORIAS */
+  .cat-screen {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .cat-screen h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .cat-screen .cat-sub {
+    text-align: center;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 36px;
+  }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+  }
+
+  .cat-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    animation: popIn 0.35s cubic-bezier(.175,.885,.32,1.275);
+  }
+
+  .cat-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.15); }
+
+  .cat-card.amigos  { border-color: #ffb347; }
+  .cat-card.amigos:hover  { background: #fff8f0; }
+  .cat-card.vacaciones { border-color: #4dc8f0; }
+  .cat-card.vacaciones:hover { background: #f0faff; }
+  .cat-card.cena { border-color: #9b59b6; }
+  .cat-card.cena:hover { background: #f9f0ff; }
+
+  .cat-emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
+  .cat-title { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 6px; }
+  .cat-desc  { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+
+  /* USER BAR */
   .user-bar {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 24px; flex-wrap: wrap;
   }
 
-  .user-bar img {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 2px solid var(--accent2);
-  }
+  .user-bar-right { display: flex; align-items: center; gap: 10px; }
 
-  .user-name {
-    font-weight: 800;
-    font-size: 0.95rem;
+  .user-bar img { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--accent2); }
+  .user-name { font-weight: 800; font-size: 0.95rem; }
+
+  .btn-back {
+    background: #f0f0f0; border: none; border-radius: 10px;
+    padding: 7px 14px; font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem; cursor: pointer; color: var(--text);
+    transition: background 0.15s; display: flex; align-items: center; gap: 6px;
   }
+  .btn-back:hover { background: #e0e0e0; }
 
   .btn-logout {
-    background: #f0f0f0;
-    border: none;
-    border-radius: 10px;
-    padding: 7px 14px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 0.85rem;
-    cursor: pointer;
-    color: var(--muted);
+    background: #f0f0f0; border: none; border-radius: 10px;
+    padding: 7px 14px; font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem; cursor: pointer; color: var(--muted);
     transition: background 0.15s;
   }
   .btn-logout:hover { background: #ffe0e0; color: var(--accent); }
 
+  .cat-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 50px;
+    font-family: 'Fredoka One', cursive; font-size: 0.9rem;
+  }
+  .cat-badge.amigos    { background: #fff0d0; color: #cc7700; }
+  .cat-badge.vacaciones { background: #d0f0ff; color: #0077aa; }
+  .cat-badge.cena      { background: #f0d0ff; color: #7700cc; }
+
+  /* PANEL */
   .top-panel {
-    background: var(--card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 28px 32px;
-    margin-bottom: 30px;
-    border: 3px solid var(--accent2);
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 28px 32px; margin-bottom: 30px; border: 3px solid var(--accent2);
   }
+  .top-panel h2 { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--text); margin-bottom: 18px; }
 
-  .top-panel h2 {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.3rem;
-    color: var(--text);
-    margin-bottom: 18px;
-  }
+  .input-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; }
+  .input-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 140px; }
 
-  .input-row {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    align-items: flex-end;
-  }
-
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex: 1;
-    min-width: 140px;
-  }
-
-  label {
-    font-size: 0.82rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--muted);
-  }
+  label { font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
 
   input[type="text"], input[type="number"] {
-    padding: 11px 14px;
-    border: 2.5px solid #e8e8e8;
-    border-radius: 12px;
-    font-family: 'Nunito', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    outline: none;
-    transition: border-color 0.2s;
-    background: #fafafa;
-    color: var(--text);
+    padding: 11px 14px; border: 2.5px solid #e8e8e8; border-radius: 12px;
+    font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 700;
+    outline: none; transition: border-color 0.2s; background: #fafafa; color: var(--text);
   }
-
-  input[type="text"]:focus, input[type="number"]:focus {
-    border-color: var(--accent4);
-    background: #fff;
-  }
+  input[type="text"]:focus, input[type="number"]:focus { border-color: var(--accent4); background: #fff; }
 
   .btn {
-    padding: 12px 22px;
-    border: none;
-    border-radius: 14px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-    letter-spacing: 0.5px;
+    padding: 12px 22px; border: none; border-radius: 14px;
+    font-family: 'Fredoka One', cursive; font-size: 1rem; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s; letter-spacing: 0.5px;
   }
-
   .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.13); }
   .btn:active { transform: translateY(0); }
   .btn-primary { background: var(--accent4); color: #fff; }
-  .btn-danger  { background: var(--accent);  color: #fff; }
+  .btn-danger  { background: var(--accent); color: #fff; }
 
+  /* TOTAL */
   .total-box {
-    background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-    color: #fff;
-    border-radius: var(--radius);
-    padding: 22px 32px;
-    margin-bottom: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 8px 24px rgba(255,107,107,0.35);
-    flex-wrap: wrap;
-    gap: 12px;
+    background: linear-gradient(135deg, #ff6b6b, #ff8e53); color: #fff;
+    border-radius: var(--radius); padding: 22px 32px; margin-bottom: 30px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 8px 24px rgba(255,107,107,0.35); flex-wrap: wrap; gap: 12px;
   }
-
   .total-box .label { font-family: 'Fredoka One', cursive; font-size: 1.1rem; opacity: 0.9; }
   .total-box .amount { font-family: 'Fredoka One', cursive; font-size: 2.4rem; }
   .total-box .per-person { font-size: 0.9rem; opacity: 0.85; font-weight: 700; }
 
-  .people-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 22px;
-    margin-bottom: 30px;
-  }
+  /* GRID */
+  .people-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 22px; margin-bottom: 30px; }
 
   .person-card {
-    background: var(--card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 22px 18px 18px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    position: relative;
-    border: 3px solid transparent;
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 22px 18px 18px; display: flex; flex-direction: column; align-items: center;
+    gap: 10px; position: relative; border: 3px solid transparent;
     transition: border-color 0.2s, transform 0.2s;
     animation: popIn 0.35s cubic-bezier(.175,.885,.32,1.275);
   }
-
-  @keyframes popIn {
-    from { transform: scale(0.7); opacity: 0; }
-    to   { transform: scale(1);   opacity: 1; }
-  }
-
+  @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   .person-card:hover { transform: translateY(-4px); border-color: var(--accent2); }
 
-  .stickman-wrap {
-    position: relative;
-    width: 100px;
-    height: 160px;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-
+  .stickman-wrap { position: relative; width: 100px; height: 160px; cursor: pointer; flex-shrink: 0; }
   .stickman-wrap:hover .avatar-hint { opacity: 1; }
 
   .face-circle {
-    position: absolute;
-    top: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 60px; height: 60px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3.5px solid var(--accent2);
-    background: #f0f0f0;
-    z-index: 2;
-    transition: border-color 0.2s;
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 60px; height: 60px; border-radius: 50%; overflow: hidden;
+    border: 3.5px solid var(--accent2); background: #f0f0f0; z-index: 2; transition: border-color 0.2s;
   }
-
   .stickman-wrap:hover .face-circle { border-color: var(--accent4); }
+  .face-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .face-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
 
-  .face-circle img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .face-placeholder {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.8rem;
-  }
-
-  .stickman-svg {
-    position: absolute;
-    top: 52px; left: 50%;
-    transform: translateX(-50%);
-    width: 90px; height: 110px;
-  }
+  .stickman-svg { position: absolute; top: 52px; left: 50%; transform: translateX(-50%); width: 90px; height: 110px; }
 
   .avatar-hint {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    background: rgba(0,0,0,0.5);
-    color: #fff;
-    font-size: 0.6rem;
-    font-weight: 800;
-    text-align: center;
-    padding: 3px 0;
-    opacity: 0;
-    transition: opacity 0.2s;
-    border-radius: 0 0 8px 8px;
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: rgba(0,0,0,0.5); color: #fff; font-size: 0.6rem; font-weight: 800;
+    text-align: center; padding: 3px 0; opacity: 0; transition: opacity 0.2s; border-radius: 0 0 8px 8px;
   }
 
   .hidden-input { display: none; }
 
   .person-name {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.15rem;
-    color: var(--text);
-    text-align: center;
-    cursor: pointer;
-    border-radius: 8px;
-    padding: 2px 6px;
-    transition: background 0.15s;
+    font-family: 'Fredoka One', cursive; font-size: 1.15rem; color: var(--text);
+    text-align: center; cursor: pointer; border-radius: 8px; padding: 2px 6px; transition: background 0.15s;
   }
   .person-name:hover { background: #fff5f5; }
 
   .person-amount {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--accent4);
-    font-family: 'Fredoka One', cursive;
-    cursor: pointer;
-    border-radius: 8px;
-    padding: 2px 8px;
-    transition: background 0.15s;
+    font-size: 1.5rem; font-weight: 800; color: var(--accent4);
+    font-family: 'Fredoka One', cursive; cursor: pointer; border-radius: 8px;
+    padding: 2px 8px; transition: background 0.15s;
   }
   .person-amount:hover { background: #f0f7ff; }
 
-  .person-extra {
-    font-size: 0.78rem;
-    color: var(--muted);
-    font-weight: 700;
-    text-align: center;
-  }
+  .person-extra { font-size: 0.78rem; color: var(--muted); font-weight: 700; text-align: center; }
 
   .delete-btn {
-    position: absolute;
-    top: 10px; right: 10px;
-    background: #ffe0e0;
-    border: none;
-    border-radius: 50%;
-    width: 26px; height: 26px;
-    font-size: 0.75rem;
-    cursor: pointer;
-    color: var(--accent);
-    font-weight: 800;
-    transition: background 0.15s;
+    position: absolute; top: 10px; right: 10px; background: #ffe0e0; border: none;
+    border-radius: 50%; width: 26px; height: 26px; font-size: 0.75rem; cursor: pointer;
+    color: var(--accent); font-weight: 800; transition: background 0.15s;
     display: flex; align-items: center; justify-content: center;
   }
   .delete-btn:hover { background: var(--accent); color: #fff; }
 
-  .color-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-  }
+  .color-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
 
-  .empty-state {
-    text-align: center;
-    padding: 50px 20px;
-    color: var(--muted);
-    font-size: 1rem;
-    font-weight: 700;
-  }
+  .empty-state { text-align: center; padding: 50px 20px; color: var(--muted); font-size: 1rem; font-weight: 700; }
   .empty-state .emoji { font-size: 3rem; display: block; margin-bottom: 10px; }
 
-  .summary-box {
-    background: var(--card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 28px 32px;
-    border: 3px solid var(--accent3);
-  }
-  .summary-box h2 {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.4rem;
-    margin-bottom: 18px;
-    color: var(--text);
-  }
+  .summary-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 32px; border: 3px solid var(--accent3); }
+  .summary-box h2 { font-family: 'Fredoka One', cursive; font-size: 1.4rem; margin-bottom: 18px; color: var(--text); }
 
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 2px dashed #f0f0f0;
-    font-weight: 700;
-  }
+  .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 2px dashed #f0f0f0; font-weight: 700; }
   .summary-row:last-child { border-bottom: none; }
   .summary-name { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
   .summary-val  { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--accent4); }
 
   .saved-badge {
-    position: fixed;
-    bottom: 24px; right: 24px;
-    background: var(--accent3);
-    color: #fff;
-    font-family: 'Fredoka One', cursive;
-    font-size: 0.95rem;
-    padding: 10px 20px;
-    border-radius: 50px;
-    box-shadow: 0 4px 16px rgba(107,203,119,0.4);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.3s, transform 0.3s;
-    pointer-events: none;
+    position: fixed; bottom: 24px; right: 24px; background: var(--accent3); color: #fff;
+    font-family: 'Fredoka One', cursive; font-size: 0.95rem; padding: 10px 20px; border-radius: 50px;
+    box-shadow: 0 4px 16px rgba(107,203,119,0.4); opacity: 0; transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s; pointer-events: none;
   }
   .saved-badge.show { opacity: 1; transform: translateY(0); }
 
   .reset-btn-wrap { text-align: center; margin-top: 24px; }
-
-  .loading {
-    text-align: center;
-    padding: 60px 20px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.3rem;
-    color: var(--muted);
-  }
+  .loading { text-align: center; padding: 60px 20px; font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--muted); }
 
   @media (max-width: 600px) {
     h1 { font-size: 2rem; }
     .top-panel { padding: 20px; }
     .total-box { flex-direction: column; text-align: center; }
+    .cat-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
-<body>
+<body class="default">
 
 <div class="container">
   <h1>💸 Dividir Gastos</h1>
@@ -447,7 +332,6 @@
 
 <div class="saved-badge" id="savedBadge">✅ Guardado</div>
 
-<!-- Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
@@ -455,15 +339,13 @@
   import { getFirestore, doc, getDoc, setDoc }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  // ── TU CONFIGURACIÓN DE FIREBASE ──
   const firebaseConfig = {
     apiKey: "AIzaSyBsH-vABIi1YskINQD3LI_hXmM6jE0MKLY",
     authDomain: "pagina-para-dividir-gas.firebaseapp.com",
     projectId: "pagina-para-dividir-gas",
     storageBucket: "pagina-para-dividir-gas.firebasestorage.app",
     messagingSenderId: "497709394928",
-    appId: "1:497709394928:web:b5c135eae219590ded0b35",
-    measurementId: "G-5WZ9QMW8G7"
+    appId: "1:497709394928:web:b5c135eae219590ded0b35"
   };
 
   const app  = initializeApp(firebaseConfig);
@@ -471,23 +353,27 @@
   const db   = getFirestore(app);
 
   const COLORS = ['#4d96ff','#ff6b6b','#6bcb77','#ffd93d','#c77dff','#ff9f43','#48dbfb','#ff6eb4'];
+
+  const CATEGORIAS = {
+    amigos:     { label: 'Reunión con amigos', emoji: '🎉', desc: 'Juntadas, salidas, fiestas', clase: 'amigos' },
+    vacaciones: { label: 'Vacaciones',          emoji: '🏖️', desc: 'Viajes, escapadas, aventuras', clase: 'vacaciones' },
+    cena:       { label: 'Cena / Restaurante',  emoji: '🍽️', desc: 'Salidas a comer, cenas', clase: 'cena' }
+  };
+
   let people = [];
   let currentUser = null;
+  let categoriaActual = null;
 
   // ── FIRESTORE ──
-  async function cargarDeFirestore() {
-    const ref = doc(db, 'usuarios', currentUser.uid);
+  async function cargarDeFirestore(cat) {
+    const ref = doc(db, 'usuarios', currentUser.uid, 'categorias', cat);
     const snap = await getDoc(ref);
-    if (snap.exists()) {
-      people = snap.data().people || [];
-    } else {
-      people = [];
-    }
-    renderAll();
+    people = snap.exists() ? (snap.data().people || []) : [];
+    renderApp();
   }
 
   async function guardarEnFirestore() {
-    const ref = doc(db, 'usuarios', currentUser.uid);
+    const ref = doc(db, 'usuarios', currentUser.uid, 'categorias', categoriaActual);
     await setDoc(ref, { people });
     mostrarBadge();
   }
@@ -496,30 +382,41 @@
   onAuthStateChanged(auth, user => {
     currentUser = user;
     if (user) {
-      cargarDeFirestore();
+      categoriaActual = null;
+      renderCategorias();
     } else {
+      document.body.className = 'default';
       renderLogin();
     }
   });
 
   function loginConGoogle() {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider).catch(err => {
-      alert('Error al iniciar sesión: ' + err.message);
-    });
+    signInWithPopup(auth, new GoogleAuthProvider()).catch(err => alert('Error: ' + err.message));
   }
 
   function cerrarSesion() {
     signOut(auth);
   }
 
-  // ── UI ──
+  function elegirCategoria(cat) {
+    categoriaActual = cat;
+    document.body.className = 'cat-' + CATEGORIAS[cat].clase;
+    cargarDeFirestore(cat);
+  }
+
+  function volverACategorias() {
+    categoriaActual = null;
+    document.body.className = 'default';
+    renderCategorias();
+  }
+
   function mostrarBadge() {
     const badge = document.getElementById('savedBadge');
     badge.classList.add('show');
     setTimeout(() => badge.classList.remove('show'), 2000);
   }
 
+  // ── RENDER LOGIN ──
   function renderLogin() {
     document.getElementById('app').innerHTML = `
       <div class="login-box">
@@ -533,6 +430,38 @@
     document.getElementById('btnGoogle').addEventListener('click', loginConGoogle);
   }
 
+  // ── RENDER CATEGORIAS ──
+  function renderCategorias() {
+    document.getElementById('app').innerHTML = `
+      <div class="user-bar">
+        <div></div>
+        <div class="user-bar-right">
+          <img src="${currentUser.photoURL}" alt="">
+          <span class="user-name">${currentUser.displayName}</span>
+          <button class="btn-logout" id="btnLogout">Salir</button>
+        </div>
+      </div>
+      <div class="cat-screen">
+        <h2>¿Qué vas a dividir hoy?</h2>
+        <p class="cat-sub">Elegí una categoría para empezar</p>
+        <div class="cat-grid">
+          ${Object.entries(CATEGORIAS).map(([key, cat]) => `
+            <div class="cat-card ${cat.clase}" data-cat="${key}">
+              <span class="cat-emoji">${cat.emoji}</span>
+              <div class="cat-title">${cat.label}</div>
+              <div class="cat-desc">${cat.desc}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>`;
+
+    document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
+    document.querySelectorAll('.cat-card').forEach(card => {
+      card.addEventListener('click', () => elegirCategoria(card.dataset.cat));
+    });
+  }
+
+  // ── ACCIONES ──
   function agregarPersona() {
     const nombre = document.getElementById('inputNombre').value.trim();
     const monto  = parseFloat(document.getElementById('inputMonto').value) || 0;
@@ -541,28 +470,13 @@
     document.getElementById('inputNombre').value = '';
     document.getElementById('inputMonto').value  = '';
     guardarEnFirestore();
-    renderAll();
+    renderApp();
   }
 
   function eliminarPersona(id) {
     people = people.filter(p => p.id !== id);
     guardarEnFirestore();
-    renderAll();
-  }
-
-  function abrirFoto(id) {
-    document.getElementById('file-' + id).click();
-  }
-
-  function cargarFoto(id, input) {
-    const file = input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      const p = people.find(x => x.id === id);
-      if (p) { p.foto = e.target.result; guardarEnFirestore(); renderAll(); }
-    };
-    reader.readAsDataURL(file);
+    renderApp();
   }
 
   function editarMonto(id, el) {
@@ -572,16 +486,9 @@
     input.type = 'number'; input.value = p.monto; input.min = '0'; input.step = '0.01';
     input.style.cssText = 'width:110px;padding:6px 10px;border:2.5px solid var(--accent4);border-radius:10px;font-family:Fredoka One,cursive;font-size:1.1rem;color:var(--accent4);text-align:center;outline:none;background:#f0f7ff;';
     el.innerHTML = ''; el.appendChild(input); input.focus(); input.select();
-    const confirmar = () => {
-      const nuevo = parseFloat(input.value);
-      if (!isNaN(nuevo) && nuevo >= 0) p.monto = nuevo;
-      guardarEnFirestore(); renderAll();
-    };
+    const confirmar = () => { const v = parseFloat(input.value); if (!isNaN(v) && v >= 0) p.monto = v; guardarEnFirestore(); renderApp(); };
     input.addEventListener('blur', confirmar);
-    input.addEventListener('keydown', e => {
-      if (e.key === 'Enter') { e.preventDefault(); confirmar(); }
-      if (e.key === 'Escape') renderAll();
-    });
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); confirmar(); } if (e.key === 'Escape') renderApp(); });
   }
 
   function editarNombre(id, el) {
@@ -591,32 +498,23 @@
     input.type = 'text'; input.value = p.nombre;
     input.style.cssText = 'width:130px;padding:6px 10px;border:2.5px solid var(--accent);border-radius:10px;font-family:Fredoka One,cursive;font-size:1rem;color:var(--text);text-align:center;outline:none;background:#fff5f5;';
     el.innerHTML = ''; el.appendChild(input); input.focus(); input.select();
-    const confirmar = () => {
-      const nuevo = input.value.trim();
-      if (nuevo) p.nombre = nuevo;
-      guardarEnFirestore(); renderAll();
-    };
+    const confirmar = () => { const v = input.value.trim(); if (v) p.nombre = v; guardarEnFirestore(); renderApp(); };
     input.addEventListener('blur', confirmar);
-    input.addEventListener('keydown', e => {
-      if (e.key === 'Enter') { e.preventDefault(); confirmar(); }
-      if (e.key === 'Escape') renderAll();
-    });
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); confirmar(); } if (e.key === 'Escape') renderApp(); });
   }
 
   async function resetearTodo() {
     if (!confirm('¿Seguro que querés borrar todo y empezar de cero?')) return;
     people = [];
     await guardarEnFirestore();
-    renderAll();
+    renderApp();
   }
 
   function stickmanHTML(p) {
     const c = p.color;
-    const fotoContent = p.foto
-      ? `<img src="${p.foto}" alt="${p.nombre}">`
-      : `<div class="face-placeholder">🙂</div>`;
+    const fotoContent = p.foto ? `<img src="${p.foto}" alt="${p.nombre}">` : `<div class="face-placeholder">🙂</div>`;
     return `
-      <div class="stickman-wrap" onclick="abrirFoto(${p.id})" title="Clic para subir foto">
+      <div class="stickman-wrap" data-foto="${p.id}" title="Clic para subir foto">
         <div class="face-circle">${fotoContent}</div>
         <svg class="stickman-svg" viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg">
           <line x1="45" y1="0"  x2="45" y2="12" stroke="${c}" stroke-width="4" stroke-linecap="round"/>
@@ -629,8 +527,7 @@
           <line x1="68" y1="95" x2="80" y2="100" stroke="${c}" stroke-width="3.5" stroke-linecap="round"/>
         </svg>
         <div class="avatar-hint">📷 Subir foto</div>
-        <input type="file" id="file-${p.id}" class="hidden-input" accept="image/*"
-               onchange="cargarFoto(${p.id}, this)">
+        <input type="file" id="file-${p.id}" class="hidden-input" accept="image/*">
       </div>`;
   }
 
@@ -638,28 +535,14 @@
     return '$' + n.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
-  function renderAll() {
-    const total     = people.reduce((s, p) => s + p.monto, 0);
+  // ── RENDER APP ──
+  function renderApp() {
+    const cat = CATEGORIAS[categoriaActual];
+    const total = people.reduce((s, p) => s + p.monto, 0);
     const porPerson = people.length ? total / people.length : 0;
 
-    const userBar = `
-      <div class="user-bar">
-        <img src="${currentUser.photoURL}" alt="${currentUser.displayName}">
-        <span class="user-name">${currentUser.displayName}</span>
-        <button class="btn-logout" id="btnLogout">Salir</button>
-      </div>`;
-
-    const totalBox = people.length > 0 ? `
-      <div class="total-box">
-        <div>
-          <div class="label">Total gastado</div>
-          <div class="per-person">${people.length > 1 ? `Corresponde ${formatMoney(porPerson)} por persona` : '1 persona'}</div>
-        </div>
-        <div class="amount">${formatMoney(total)}</div>
-      </div>` : '';
-
     const cards = people.length === 0
-      ? `<div class="empty-state"><span class="emoji">🙈</span>Todavía no hay nadie. ¡Agregá la primera persona!</div>`
+      ? `<div class="empty-state"><span class="emoji">${cat.emoji}</span>No hay nadie todavía. ¡Agregá la primera persona!</div>`
       : people.map(p => {
           const dif = p.monto - porPerson;
           const difLabel = dif > 0
@@ -677,7 +560,46 @@
             </div>`;
         }).join('');
 
-    const summary = people.length > 0 ? `
+    document.getElementById('app').innerHTML = `
+      <div class="user-bar">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="btn-back" id="btnBack">← Categorías</button>
+          <span class="cat-badge ${cat.clase}">${cat.emoji} ${cat.label}</span>
+        </div>
+        <div class="user-bar-right">
+          <img src="${currentUser.photoURL}" alt="">
+          <span class="user-name">${currentUser.displayName}</span>
+          <button class="btn-logout" id="btnLogout">Salir</button>
+        </div>
+      </div>
+
+      <div class="top-panel">
+        <h2>➕ Agregar persona y gasto</h2>
+        <div class="input-row">
+          <div class="input-group">
+            <label>Nombre</label>
+            <input type="text" id="inputNombre" placeholder="Ej: Martín" />
+          </div>
+          <div class="input-group" style="max-width:180px">
+            <label>Lo que gastó ($)</label>
+            <input type="number" id="inputMonto" placeholder="0.00" min="0" step="0.01" />
+          </div>
+          <button class="btn btn-primary" id="btnAgregar">Agregar</button>
+        </div>
+      </div>
+
+      ${people.length > 0 ? `
+      <div class="total-box">
+        <div>
+          <div class="label">Total gastado</div>
+          <div class="per-person">${people.length > 1 ? `Corresponde ${formatMoney(porPerson)} por persona` : '1 persona'}</div>
+        </div>
+        <div class="amount">${formatMoney(total)}</div>
+      </div>` : ''}
+
+      <div class="people-grid">${cards}</div>
+
+      ${people.length > 0 ? `
       <div class="summary-box">
         <h2>📋 Resumen</h2>
         ${people.map(p => {
@@ -699,64 +621,47 @@
           <div class="summary-name" style="font-family:'Fredoka One',cursive">👤 Por persona</div>
           <div class="summary-val">${formatMoney(porPerson)}</div>
         </div>` : ''}
-      </div>` : '';
-
-    const resetBtn = people.length > 0
-      ? `<div class="reset-btn-wrap"><button class="btn btn-danger" id="btnReset">🗑️ Borrar todo y empezar de cero</button></div>`
-      : '';
-
-    document.getElementById('app').innerHTML = `
-      ${userBar}
-      <div class="top-panel">
-        <h2>➕ Agregar persona y gasto</h2>
-        <div class="input-row">
-          <div class="input-group">
-            <label>Nombre</label>
-            <input type="text" id="inputNombre" placeholder="Ej: Martín" />
-          </div>
-          <div class="input-group" style="max-width:180px">
-            <label>Lo que gastó ($)</label>
-            <input type="number" id="inputMonto" placeholder="0.00" min="0" step="0.01" />
-          </div>
-          <button class="btn btn-primary" id="btnAgregar">Agregar</button>
-        </div>
       </div>
-      ${totalBox}
-      <div class="people-grid">${cards}</div>
-      ${summary}
-      ${resetBtn}
+      <div class="reset-btn-wrap">
+        <button class="btn btn-danger" id="btnReset">🗑️ Borrar todo y empezar de cero</button>
+      </div>` : ''}
     `;
 
     // Eventos
+    document.getElementById('btnBack').addEventListener('click', volverACategorias);
     document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
     document.getElementById('btnAgregar').addEventListener('click', agregarPersona);
-    if (people.length > 0) {
-      document.getElementById('btnReset')?.addEventListener('click', resetearTodo);
-    }
+    document.getElementById('btnReset')?.addEventListener('click', resetearTodo);
+
+    document.getElementById('inputNombre')?.addEventListener('keydown', e => { if (e.key === 'Enter') agregarPersona(); });
+    document.getElementById('inputMonto')?.addEventListener('keydown', e => { if (e.key === 'Enter') agregarPersona(); });
 
     document.querySelectorAll('.delete-btn').forEach(btn => {
       btn.addEventListener('click', () => eliminarPersona(Number(btn.dataset.id)));
     });
-
     document.querySelectorAll('[data-edit-monto]').forEach(el => {
       el.addEventListener('click', () => editarMonto(Number(el.dataset.editMonto), el));
     });
-
     document.querySelectorAll('[data-edit-nombre]').forEach(el => {
       el.addEventListener('click', () => editarNombre(Number(el.dataset.editNombre), el));
     });
-
-    document.getElementById('inputNombre')?.addEventListener('keydown', e => {
-      if (e.key === 'Enter') agregarPersona();
+    document.querySelectorAll('[data-foto]').forEach(wrap => {
+      wrap.addEventListener('click', () => document.getElementById('file-' + wrap.dataset.foto).click());
     });
-    document.getElementById('inputMonto')?.addEventListener('keydown', e => {
-      if (e.key === 'Enter') agregarPersona();
+    document.querySelectorAll('[id^="file-"]').forEach(input => {
+      input.addEventListener('change', () => {
+        const id = Number(input.id.replace('file-', ''));
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+          const p = people.find(x => x.id === id);
+          if (p) { p.foto = e.target.result; guardarEnFirestore(); renderApp(); }
+        };
+        reader.readAsDataURL(file);
+      });
     });
   }
-
-  // Exponer funciones necesarias para los onchange del input file
-  window.abrirFoto = abrirFoto;
-  window.cargarFoto = cargarFoto;
 </script>
 </body>
 </html>
