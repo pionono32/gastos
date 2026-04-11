@@ -1,207 +1,566 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GPU/CPU Gaming Performance Analyzer</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="app-shell">
-      <section class="panel hero">
-        <p class="eyebrow">Estimaciones conservadoras</p>
-        <h1>GPU/CPU Gaming Performance Analyzer</h1>
-        <p class="intro">
-          Simula rendimiento gaming con una base de benchmarks conservadora, 1% lows,
-          uso de GPU, RAM y comportamiento por resolucion. El objetivo es acercarse a
-          un resultado creible, no al numero mas lindo.
-        </p>
-      </section>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dividir Gastos</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf6ec; --card: #fff; --accent: #ff6b6b; --accent2: #ffd93d;
+    --accent3: #6bcb77; --accent4: #4d96ff; --text: #2d2d2d; --muted: #999;
+    --shadow: 0 8px 32px rgba(0,0,0,0.10); --radius: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; min-height: 100vh; color: var(--text); padding: 30px 20px 60px; transition: background 0.5s; }
+  body.cat-amigos { background: #fff8f0; background-image: radial-gradient(circle at 10% 20%, #ffe0e0 0%, transparent 40%), radial-gradient(circle at 90% 80%, #fff0a0 0%, transparent 40%); }
+  body.cat-vacaciones { background: #f0faff; background-image: radial-gradient(circle at 10% 20%, #c8f0ff 0%, transparent 40%), radial-gradient(circle at 90% 80%, #d0ffe8 0%, transparent 40%); }
+  body.cat-cena { background: #1a1025; background-image: radial-gradient(circle at 10% 20%, #2d1b4e 0%, transparent 40%), radial-gradient(circle at 90% 80%, #1a2a1a 0%, transparent 40%); color: #f0e6ff; }
+  body.cat-cena .person-card, body.cat-cena .top-panel, body.cat-cena .summary-box,
+  body.cat-cena .gastos-panel, body.cat-cena .transfers-box, body.cat-cena .gasto-resumen-card { background: #2a1f3d; color: #f0e6ff; border-color: #6c3fc5; }
+  body.cat-cena input[type="text"], body.cat-cena input[type="number"], body.cat-cena select { background: #1a1025; color: #f0e6ff; border-color: #6c3fc5; }
+  body.cat-cena .person-name { color: #f0e6ff; }
+  body.cat-cena h1 { color: #d4a0ff; text-shadow: 3px 3px 0 #6c3fc5; }
+  body.cat-cena .subtitle { color: #9977cc; }
+  body.cat-cena .summary-row, body.cat-cena .parte-row { border-color: #3d2f5e; }
+  body.cat-cena .gasto-item { background: #1a1025; border-color: #6c3fc5; }
+  body.cat-cena .participante-chip { background: #3d2f5e; color: #d4a0ff; }
+  body.cat-cena .tab-btn { color: #9977cc; }
+  body.cat-cena .tab-btn.active { color: #d4a0ff; border-bottom-color: #6c3fc5; }
+  body.cat-cena .parte-pago { background: #1a3a1a; color: #6bcb77; }
+  body.default { background: #fdf6ec; background-image: radial-gradient(circle at 10% 20%, #ffe0e0 0%, transparent 40%), radial-gradient(circle at 90% 80%, #d0f0ff 0%, transparent 40%); }
 
-      <section class="methodology-grid">
-        <article class="panel methodology-card">
-          <h2>1. Estructura de datos</h2>
-          <p>
-            Cada juego tiene categoria, preset y tablas de benchmark para CPU y GPU con
-            promedio, 1% low y uso de GPU en escenarios de referencia. Luego el modelo
-            aplica RAM, resolucion y cache extra como modificadores acotados.
-          </p>
-        </article>
+  h1 { font-family: 'Fredoka One', cursive; font-size: 2.6rem; text-align: center; color: var(--accent); letter-spacing: 1px; margin-bottom: 6px; text-shadow: 3px 3px 0 #ffd93d; }
+  .subtitle { text-align: center; color: var(--muted); font-size: 1rem; margin-bottom: 36px; font-weight: 600; }
+  .container { max-width: 900px; margin: 0 auto; }
 
-        <article class="panel methodology-card">
-          <h2>2. Supuestos</h2>
-          <p>
-            Las cifras parten de referencias conservadoras vistas en reviews y se ajustan
-            hacia abajo cuando falta informacion exacta. Los juegos CPU-bound premian mas
-            cache, RAM y CPU; los GPU-bound castigan antes a la grafica.
-          </p>
-        </article>
+  .login-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 50px 32px; text-align: center; border: 3px solid var(--accent2); max-width: 400px; margin: 60px auto; }
+  .login-box h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; margin-bottom: 10px; }
+  .login-box p { color: var(--muted); font-weight: 600; margin-bottom: 28px; }
+  .btn-google { display: flex; align-items: center; justify-content: center; gap: 12px; background: #fff; border: 2.5px solid #e0e0e0; border-radius: 14px; padding: 14px 24px; font-family: 'Fredoka One', cursive; font-size: 1.1rem; cursor: pointer; width: 100%; transition: box-shadow 0.2s, transform 0.15s; color: var(--text); }
+  .btn-google:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.12); transform: translateY(-2px); }
+  .btn-google img { width: 24px; height: 24px; }
 
-        <article class="panel methodology-card">
-          <h2>3. Limitaciones</h2>
-          <p>
-            No reemplaza un benchmark real del equipo exacto. Drivers, parches, mapa,
-            ray tracing, DLSS/FSR, temperatura y segundo plano pueden mover los numeros.
-            Por eso las salidas muestran rango y confianza.
-          </p>
-        </article>
-      </section>
+  .cat-screen { max-width: 700px; margin: 0 auto; }
+  .cat-screen h2 { font-family: 'Fredoka One', cursive; font-size: 1.8rem; text-align: center; margin-bottom: 8px; }
+  .cat-screen .cat-sub { text-align: center; color: var(--muted); font-weight: 600; margin-bottom: 36px; }
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+  .cat-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 32px 20px; text-align: center; cursor: pointer; border: 3px solid transparent; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; }
+  .cat-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.15); }
+  .cat-card.amigos { border-color: #ffb347; } .cat-card.amigos:hover { background: #fff8f0; }
+  .cat-card.vacaciones { border-color: #4dc8f0; } .cat-card.vacaciones:hover { background: #f0faff; }
+  .cat-card.cena { border-color: #9b59b6; } .cat-card.cena:hover { background: #f9f0ff; }
+  .cat-emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
+  .cat-title { font-family: 'Fredoka One', cursive; font-size: 1.2rem; margin-bottom: 6px; }
+  .cat-desc { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
 
-      <section class="panel workspace">
-        <div class="controls-card">
-          <div class="section-head">
-            <div>
-              <p class="section-kicker">Configuracion</p>
-              <h2>Escenario principal</h2>
-            </div>
+  .user-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+  .user-bar-right { display: flex; align-items: center; gap: 10px; }
+  .user-bar img { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--accent2); }
+  .user-name { font-weight: 800; font-size: 0.95rem; }
+  .btn-back { background: #f0f0f0; border: none; border-radius: 10px; padding: 7px 14px; font-family: 'Fredoka One', cursive; font-size: 0.85rem; cursor: pointer; color: var(--text); transition: background 0.15s; }
+  .btn-back:hover { background: #e0e0e0; }
+  .btn-logout { background: #f0f0f0; border: none; border-radius: 10px; padding: 7px 14px; font-family: 'Fredoka One', cursive; font-size: 0.85rem; cursor: pointer; color: var(--muted); transition: background 0.15s; }
+  .btn-logout:hover { background: #ffe0e0; color: var(--accent); }
+  .cat-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 50px; font-family: 'Fredoka One', cursive; font-size: 0.9rem; }
+  .cat-badge.amigos { background: #fff0d0; color: #cc7700; }
+  .cat-badge.vacaciones { background: #d0f0ff; color: #0077aa; }
+  .cat-badge.cena { background: #f0d0ff; color: #7700cc; }
 
-            <div class="preset-switch" id="preset-switch" aria-label="Preset grafico">
-              <button type="button" class="preset-btn is-active" data-preset="competitive">
-                Competitive
-              </button>
-              <button type="button" class="preset-btn" data-preset="ultra">
-                Ultra
-              </button>
-            </div>
-          </div>
+  .tabs { display: flex; margin-bottom: 24px; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; border: 3px solid #f0f0f0; }
+  .tab-btn { flex: 1; padding: 14px; border: none; background: transparent; font-family: 'Fredoka One', cursive; font-size: 1rem; cursor: pointer; color: var(--muted); transition: all 0.2s; border-bottom: 3px solid transparent; }
+  .tab-btn.active { color: var(--accent4); border-bottom-color: var(--accent4); background: #f8fbff; }
+  .tab-btn:hover:not(.active) { background: #f8f8f8; }
 
-          <form class="controls-grid" id="controls-form">
-            <label>
-              CPU
-              <select id="cpu-select"></select>
-            </label>
+  .top-panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 32px; margin-bottom: 30px; border: 3px solid var(--accent2); }
+  .top-panel h2 { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--text); margin-bottom: 18px; }
+  .gastos-panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 32px; margin-bottom: 30px; border: 3px solid var(--accent4); }
+  .gastos-panel h2 { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--text); margin-bottom: 18px; }
 
-            <label>
-              GPU
-              <select id="gpu-select"></select>
-            </label>
+  .input-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; }
+  .input-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 140px; }
+  label { font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+  input[type="text"], input[type="number"], select { padding: 11px 14px; border: 2.5px solid #e8e8e8; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 700; outline: none; transition: border-color 0.2s; background: #fafafa; color: var(--text); }
+  input:focus, select:focus { border-color: var(--accent4); background: #fff; }
 
-            <label>
-              Juego
-              <select id="game-select"></select>
-            </label>
+  .participantes-wrap { margin-top: 14px; }
+  .part-label { font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 10px; display: block; }
+  .participantes-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .participante-check { display: inline-flex; align-items: center; border-radius: 50px; padding: 8px 16px; cursor: pointer; user-select: none; font-weight: 700; font-size: 0.9rem; border: 2px solid transparent; transition: all 0.15s; }
+  .participante-check.checked { background: var(--accent4); color: #fff; border-color: var(--accent4); }
+  .participante-check:not(.checked) { background: #f0f0f0; color: var(--muted); }
 
-            <label>
-              Resolucion
-              <select id="resolution-select"></select>
-            </label>
+  .btn { padding: 12px 22px; border: none; border-radius: 14px; font-family: 'Fredoka One', cursive; font-size: 1rem; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.13); }
+  .btn-primary { background: var(--accent4); color: #fff; }
+  .btn-danger  { background: var(--accent); color: #fff; }
 
-            <label>
-              RAM
-              <select id="ram-capacity-select"></select>
-            </label>
+  .gastos-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+  .gasto-item { background: #f8f8f8; border-radius: 14px; padding: 14px 18px; border: 2px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .gasto-info { flex: 1; }
+  .gasto-nombre { font-family: 'Fredoka One', cursive; font-size: 1.05rem; margin-bottom: 4px; }
+  .gasto-detalle { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+  .gasto-monto { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--accent4); }
+  .participante-chip { display: inline-block; background: #e8f0ff; color: var(--accent4); border-radius: 50px; padding: 2px 10px; font-size: 0.75rem; font-weight: 800; margin: 2px; }
 
-            <label>
-              Frecuencia RAM
-              <select id="ram-speed-select"></select>
-            </label>
+  .total-box { background: linear-gradient(135deg, #ff6b6b, #ff8e53); color: #fff; border-radius: var(--radius); padding: 22px 32px; margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 8px 24px rgba(255,107,107,0.35); flex-wrap: wrap; gap: 12px; }
+  .total-box .t-label { font-family: 'Fredoka One', cursive; font-size: 1.1rem; opacity: 0.9; }
+  .total-box .amount { font-family: 'Fredoka One', cursive; font-size: 2.4rem; }
+  .total-box .per-person { font-size: 0.9rem; opacity: 0.85; font-weight: 700; }
 
-            <label>
-              Canal
-              <select id="ram-channel-select"></select>
-            </label>
-          </form>
+  .people-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 22px; margin-bottom: 30px; }
+  .person-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 18px 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; border: 3px solid transparent; transition: border-color 0.2s, transform 0.2s; }
+  @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .person-card:hover { transform: translateY(-4px); border-color: var(--accent2); }
+  .stickman-wrap { position: relative; width: 100px; height: 160px; cursor: pointer; flex-shrink: 0; }
+  .stickman-wrap:hover .avatar-hint { opacity: 1; }
+  .face-circle { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 3.5px solid var(--accent2); background: #f0f0f0; z-index: 2; }
+  .stickman-wrap:hover .face-circle { border-color: var(--accent4); }
+  .face-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .face-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
+  .stickman-svg { position: absolute; top: 52px; left: 50%; transform: translateX(-50%); width: 90px; height: 110px; }
+  .avatar-hint { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.5); color: #fff; font-size: 0.6rem; font-weight: 800; text-align: center; padding: 3px 0; opacity: 0; transition: opacity 0.2s; border-radius: 0 0 8px 8px; }
+  .hidden-input { display: none; }
+  .person-name { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: var(--text); text-align: center; cursor: pointer; border-radius: 8px; padding: 2px 6px; transition: background 0.15s; }
+  .person-name:hover { background: #fff5f5; }
+  .person-balance { font-family: 'Fredoka One', cursive; font-size: 1rem; text-align: center; }
+  .balance-pos { color: var(--accent3); } .balance-neg { color: var(--accent); } .balance-neu { color: var(--muted); }
+  .delete-btn { position: absolute; top: 10px; right: 10px; background: #ffe0e0; border: none; border-radius: 50%; width: 26px; height: 26px; font-size: 0.75rem; cursor: pointer; color: var(--accent); font-weight: 800; transition: background 0.15s; display: flex; align-items: center; justify-content: center; }
+  .delete-btn:hover { background: var(--accent); color: #fff; }
+  .color-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+  .empty-state { text-align: center; padding: 50px 20px; color: var(--muted); font-size: 1rem; font-weight: 700; }
+  .empty-state .emoji { font-size: 3rem; display: block; margin-bottom: 10px; }
 
-          <div class="reference-note">
-            <strong>Modelo:</strong>
-            <span id="reference-text"></span>
-          </div>
+  .summary-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 32px; border: 3px solid var(--accent3); margin-bottom: 24px; }
+  .summary-box h2 { font-family: 'Fredoka One', cursive; font-size: 1.4rem; margin-bottom: 18px; color: var(--text); }
+  .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 2px dashed #f0f0f0; font-weight: 700; }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-name { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+
+  .gasto-resumen-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 24px; border: 3px solid #f0f0f0; margin-bottom: 16px; }
+  .gasto-resumen-titulo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+  .gasto-resumen-nombre { font-family: 'Fredoka One', cursive; font-size: 1.15rem; }
+  .gasto-resumen-monto { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--accent4); }
+  .gasto-resumen-pagador { font-size: 0.82rem; font-weight: 700; color: var(--muted); margin-bottom: 14px; }
+  .parte-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed #f0f0f0; font-weight: 700; font-size: 0.95rem; }
+  .parte-row:last-child { border-bottom: none; }
+  .parte-nombre { display: flex; align-items: center; gap: 8px; }
+  .parte-monto { font-family: 'Fredoka One', cursive; font-size: 1rem; color: var(--accent); }
+  .parte-pago { background: #efffef; border-radius: 8px; padding: 2px 10px; font-size: 0.75rem; font-weight: 800; color: var(--accent3); margin-left: 8px; }
+
+  .transfers-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 32px; border: 3px solid var(--accent2); margin-bottom: 24px; }
+  .transfers-box h2 { font-family: 'Fredoka One', cursive; font-size: 1.4rem; margin-bottom: 18px; color: var(--text); }
+  .transfer-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 2px dashed #f0f0f0; flex-wrap: wrap; }
+  .transfer-row:last-child { border-bottom: none; }
+  .transfer-from { font-family: 'Fredoka One', cursive; color: var(--accent); font-size: 1rem; }
+  .transfer-arrow { color: var(--muted); font-size: 1.2rem; }
+  .transfer-to { font-family: 'Fredoka One', cursive; color: var(--accent3); font-size: 1rem; }
+  .transfer-amount { font-family: 'Fredoka One', cursive; color: var(--accent4); font-size: 1.1rem; margin-left: auto; }
+
+  .saved-badge { position: fixed; bottom: 24px; right: 24px; background: var(--accent3); color: #fff; font-family: 'Fredoka One', cursive; font-size: 0.95rem; padding: 10px 20px; border-radius: 50px; box-shadow: 0 4px 16px rgba(107,203,119,0.4); opacity: 0; transform: translateY(10px); transition: opacity 0.3s, transform 0.3s; pointer-events: none; }
+  .saved-badge.show { opacity: 1; transform: translateY(0); }
+  .reset-btn-wrap { text-align: center; margin-top: 24px; }
+  .loading { text-align: center; padding: 60px 20px; font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--muted); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 2rem; }
+    .top-panel, .gastos-panel { padding: 20px; }
+    .total-box { flex-direction: column; text-align: center; }
+    .cat-grid { grid-template-columns: 1fr; }
+    .tabs { flex-direction: column; }
+  }
+</style>
+</head>
+<body class="default">
+<div class="container">
+  <h1>💸 Dividir Gastos</h1>
+  <p class="subtitle">Agregá personas, cargá gastos y dividí fácil</p>
+  <div id="app"><div class="loading">Cargando... ⏳</div></div>
+</div>
+<div class="saved-badge" id="savedBadge">✅ Guardado</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBsH-vABIi1YskINQD3LI_hXmM6jE0MKLY",
+    authDomain: "pagina-para-dividir-gas.firebaseapp.com",
+    projectId: "pagina-para-dividir-gas",
+    storageBucket: "pagina-para-dividir-gas.firebasestorage.app",
+    messagingSenderId: "497709394928",
+    appId: "1:497709394928:web:b5c135eae219590ded0b35"
+  };
+
+  const fbApp = initializeApp(firebaseConfig);
+  const auth  = getAuth(fbApp);
+  const db    = getFirestore(fbApp);
+
+  const COLORS = ['#4d96ff','#ff6b6b','#6bcb77','#ffd93d','#c77dff','#ff9f43','#48dbfb','#ff6eb4'];
+  const CATS = {
+    amigos:     { label: 'Reunión con amigos', emoji: '🎉', desc: 'Juntadas, salidas, fiestas',    clase: 'amigos' },
+    vacaciones: { label: 'Vacaciones',          emoji: '🏖️', desc: 'Viajes, escapadas, aventuras', clase: 'vacaciones' },
+    cena:       { label: 'Cena / Restaurante',  emoji: '🍽️', desc: 'Salidas a comer, cenas',       clase: 'cena' }
+  };
+
+  let people = [], gastos = [], currentUser = null, catActual = null, tabActual = 'personas';
+  let estadoPart = {};
+
+  async function cargar(cat) {
+    try {
+      const snap = await getDoc(doc(db, 'usuarios', currentUser.uid, 'categorias', cat));
+      people = snap.exists() ? (snap.data().people || []) : [];
+      gastos = snap.exists() ? (snap.data().gastos  || []) : [];
+    } catch(e) {
+      people = []; gastos = [];
+    }
+    resetearPart();
+    renderApp();
+  }
+
+  async function guardar() {
+    try {
+      await setDoc(doc(db, 'usuarios', currentUser.uid, 'categorias', catActual), { people, gastos });
+      mostrarBadge();
+    } catch(e) {
+      alert('Error al guardar. Revisá tu conexión.');
+    }
+  }
+
+  function resetearPart() {
+    estadoPart = {};
+    people.forEach(p => estadoPart[p.id] = true);
+  }
+
+  onAuthStateChanged(auth, u => {
+    currentUser = u;
+    if (u) { catActual = null; renderCategorias(); }
+    else { document.body.className = 'default'; renderLogin(); }
+  });
+
+  const loginGoogle  = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e => alert('Error: ' + e.message));
+  const salir        = () => signOut(auth);
+  const mostrarBadge = () => { const b = document.getElementById('savedBadge'); b.classList.add('show'); setTimeout(() => b.classList.remove('show'), 2000); };
+
+  function elegirCat(cat) {
+    catActual = cat; tabActual = 'personas';
+    document.body.className = 'cat-' + CATS[cat].clase;
+    document.getElementById('app').innerHTML = '<div class="loading">Cargando... ⏳</div>';
+    cargar(cat);
+  }
+
+  function volverCats() {
+    catActual = null; document.body.className = 'default'; renderCategorias();
+  }
+
+  function calcularDeudas() {
+    const bal = {};
+    people.forEach(p => bal[p.id] = 0);
+    gastos.forEach(g => {
+      if (!g.participantes || !g.participantes.length) return;
+      const parte = g.monto / g.participantes.length;
+      bal[g.pagadorId] = (bal[g.pagadorId] || 0) + g.monto;
+      g.participantes.forEach(pid => { bal[pid] = (bal[pid] || 0) - parte; });
+    });
+    const deu = Object.entries(bal).filter(([,v]) => v < -0.01).map(([id,val]) => ({id,val})).sort((a,b) => a.val-b.val);
+    const acr = Object.entries(bal).filter(([,v]) => v >  0.01).map(([id,val]) => ({id,val})).sort((a,b) => b.val-a.val);
+    const trans = [];
+    let i=0, j=0;
+    while (i<deu.length && j<acr.length) {
+      const m = Math.min(-deu[i].val, acr[j].val);
+      trans.push({ de: deu[i].id, a: acr[j].id, monto: m });
+      deu[i].val += m; acr[j].val -= m;
+      if (Math.abs(deu[i].val) < 0.01) i++;
+      if (Math.abs(acr[j].val) < 0.01) j++;
+    }
+    return { bal, trans };
+  }
+
+  function agregarPersona() {
+    const n = document.getElementById('inputNombre').value.trim();
+    if (!n) { alert('¡Escribí un nombre!'); return; }
+    const nueva = { id: Date.now(), nombre: n, foto: null, color: COLORS[people.length % COLORS.length] };
+    people.push(nueva);
+    estadoPart[nueva.id] = true;
+    document.getElementById('inputNombre').value = '';
+    guardar(); renderApp();
+  }
+
+  function eliminarPersona(id) {
+    if (gastos.some(g => g.pagadorId===id || (g.participantes||[]).includes(id))) {
+      if (!confirm('Esta persona tiene gastos. ¿Seguro?')) return;
+      gastos = gastos.filter(g => g.pagadorId !== id);
+      gastos.forEach(g => g.participantes = (g.participantes||[]).filter(p => p !== id));
+    }
+    people = people.filter(p => p.id !== id);
+    delete estadoPart[id];
+    guardar(); renderApp();
+  }
+
+  function editarNombre(id, el) {
+    if (el.querySelector('input')) return;
+    const p = people.find(x => x.id===id);
+    const inp = document.createElement('input');
+    inp.type='text'; inp.value=p.nombre;
+    inp.style.cssText='width:120px;padding:4px 8px;border:2px solid var(--accent);border-radius:8px;font-family:Fredoka One,cursive;font-size:0.95rem;outline:none;text-align:center;';
+    el.innerHTML=''; el.appendChild(inp); inp.focus(); inp.select();
+    const ok = () => { const v=inp.value.trim(); if(v) p.nombre=v; guardar(); renderApp(); };
+    inp.addEventListener('blur', ok);
+    inp.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();ok();} if(e.key==='Escape') renderApp(); });
+  }
+
+  function agregarGasto() {
+    const nombre    = document.getElementById('gastoNombre').value.trim();
+    const monto     = parseFloat(document.getElementById('gastoMonto').value);
+    const pagadorId = Number(document.getElementById('gastoPagador').value);
+    const participantes = people.filter(p => estadoPart[p.id] === true).map(p => p.id);
+
+    if (!nombre)               { alert('¡Escribí una descripción!'); return; }
+    if (!monto || monto <= 0)  { alert('¡Monto inválido!'); return; }
+    if (!pagadorId)            { alert('¡Elegí quién pagó!'); return; }
+    if (!participantes.length) { alert('¡Elegí al menos un participante!'); return; }
+
+    gastos.push({ id: Date.now(), nombre, monto, pagadorId, participantes });
+    document.getElementById('gastoNombre').value = '';
+    document.getElementById('gastoMonto').value  = '';
+    resetearPart();
+    guardar(); renderApp();
+  }
+
+  const eliminarGasto = id => { gastos = gastos.filter(g => g.id !== id); guardar(); renderApp(); };
+
+  async function resetearTodo() {
+    if (!confirm('¿Borrar todo?')) return;
+    people = []; gastos = []; estadoPart = {};
+    await guardar(); renderApp();
+  }
+
+  function stickman(p) {
+    const c = p.color;
+    return `<div class="stickman-wrap" data-foto="${p.id}">
+      <div class="face-circle">${p.foto ? `<img src="${p.foto}">` : `<div class="face-placeholder">🙂</div>`}</div>
+      <svg class="stickman-svg" viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg">
+        <line x1="45" y1="0"  x2="45" y2="12" stroke="${c}" stroke-width="4" stroke-linecap="round"/>
+        <line x1="45" y1="12" x2="45" y2="60" stroke="${c}" stroke-width="4" stroke-linecap="round"/>
+        <line x1="45" y1="22" x2="15" y2="45" stroke="${c}" stroke-width="4" stroke-linecap="round"/>
+        <line x1="45" y1="22" x2="75" y2="45" stroke="${c}" stroke-width="4" stroke-linecap="round"/>
+        <line x1="45" y1="60" x2="22" y2="95" stroke="${c}" stroke-width="4" stroke-linecap="round"/>
+        <line x1="45" y1="60" x2="68" y2="95" stroke="${c}" stroke-width="4" stroke-linecap="round"/>
+        <line x1="22" y1="95" x2="10" y2="100" stroke="${c}" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="68" y1="95" x2="80" y2="100" stroke="${c}" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+      <div class="avatar-hint">📷 Foto</div>
+      <input type="file" id="file-${p.id}" class="hidden-input" accept="image/*">
+    </div>`;
+  }
+
+  const fmt    = n  => '$' + n.toLocaleString('es-AR', { minimumFractionDigits:2, maximumFractionDigits:2 });
+  const nombre = id => people.find(p => p.id===id)?.nombre || '?';
+  const color  = id => people.find(p => p.id===id)?.color  || '#999';
+
+  function renderLogin() {
+    document.getElementById('app').innerHTML = `
+      <div class="login-box">
+        <h2>👋 Bienvenido!</h2>
+        <p>Iniciá sesión para guardar y ver tus gastos</p>
+        <button class="btn-google" id="btnGoogle">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
+          Continuar con Google
+        </button>
+      </div>`;
+    document.getElementById('btnGoogle').onclick = loginGoogle;
+  }
+
+  function renderCategorias() {
+    document.getElementById('app').innerHTML = `
+      <div class="user-bar">
+        <div></div>
+        <div class="user-bar-right">
+          <img src="${currentUser.photoURL}">
+          <span class="user-name">${currentUser.displayName}</span>
+          <button class="btn-logout" id="btnLogout">Salir</button>
         </div>
+      </div>
+      <div class="cat-screen">
+        <h2>¿Qué vas a dividir hoy?</h2>
+        <p class="cat-sub">Elegí una categoría para empezar</p>
+        <div class="cat-grid">
+          ${Object.entries(CATS).map(([k,c]) => `
+            <div class="cat-card ${c.clase}" data-cat="${k}">
+              <span class="cat-emoji">${c.emoji}</span>
+              <div class="cat-title">${c.label}</div>
+              <div class="cat-desc">${c.desc}</div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+    document.getElementById('btnLogout').onclick = salir;
+    document.querySelectorAll('.cat-card').forEach(c => c.onclick = () => elegirCat(c.dataset.cat));
+  }
 
-        <div class="result-stack">
-          <article id="result-card" class="result-card result-balanced">
-            <div class="result-head">
-              <div>
-                <p class="section-kicker">Diagnostico</p>
-                <h2 id="diagnosis-text">Balanced</h2>
+  function renderApp() {
+    const cat = CATS[catActual];
+    const { bal, trans } = calcularDeudas();
+    const total = gastos.reduce((s,g) => s+g.monto, 0);
+
+    const tabPersonas = `
+      <div class="top-panel">
+        <h2>👤 Agregar persona</h2>
+        <div class="input-row">
+          <div class="input-group"><label>Nombre</label><input type="text" id="inputNombre" placeholder="Ej: Martín"/></div>
+          <button class="btn btn-primary" id="btnAgregarPersona">Agregar</button>
+        </div>
+      </div>
+      ${people.length === 0
+        ? `<div class="empty-state"><span class="emoji">👤</span>Agregá personas para empezar</div>`
+        : `<div class="people-grid">${people.map(p => {
+            const b = bal[p.id] || 0;
+            const bl = b > 0.01  ? `<span class="person-balance balance-pos">Le deben ${fmt(b)}</span>`
+                     : b < -0.01 ? `<span class="person-balance balance-neg">Debe ${fmt(Math.abs(b))}</span>`
+                     : `<span class="person-balance balance-neu">Al día ✓</span>`;
+            return `<div class="person-card">
+              <button class="delete-btn" data-id="${p.id}">✕</button>
+              ${stickman(p)}
+              <div class="person-name" data-edit-nombre="${p.id}">${p.nombre} ✏️</div>
+              ${gastos.length > 0 ? bl : ''}
+            </div>`;
+          }).join('')}</div>`}`;
+
+    const tabGastos = people.length === 0
+      ? `<div class="empty-state"><span class="emoji">👤</span>Primero agregá personas</div>`
+      : `<div class="gastos-panel">
+          <h2>🧾 Agregar gasto</h2>
+          <div class="input-row" style="margin-bottom:14px">
+            <div class="input-group"><label>Descripción</label><input type="text" id="gastoNombre" placeholder="Ej: Vino, Pizza..."/></div>
+            <div class="input-group" style="max-width:160px"><label>Monto ($)</label><input type="number" id="gastoMonto" placeholder="0.00" min="0" step="0.01"/></div>
+            <div class="input-group" style="max-width:160px"><label>¿Quién pagó?</label>
+              <select id="gastoPagador"><option value="">Elegir...</option>${people.map(p=>`<option value="${p.id}">${p.nombre}</option>`).join('')}</select>
+            </div>
+          </div>
+          <div class="participantes-wrap">
+            <span class="part-label">¿Quiénes participaron? (clic para desmarcar)</span>
+            <div class="participantes-list">
+              ${people.map(p => `<div class="participante-check ${estadoPart[p.id] ? 'checked' : ''}" data-pid="${p.id}">${p.nombre}</div>`).join('')}
+            </div>
+          </div>
+          <div style="margin-top:16px"><button class="btn btn-primary" id="btnAgregarGasto">Agregar gasto</button></div>
+        </div>
+        ${gastos.length === 0
+          ? `<div class="empty-state"><span class="emoji">🧾</span>No hay gastos todavía</div>`
+          : `<div class="gastos-list">${gastos.map(g => `
+              <div class="gasto-item">
+                <div class="gasto-info">
+                  <div class="gasto-nombre">${g.nombre}</div>
+                  <div class="gasto-detalle">Pagó: <strong style="color:${color(g.pagadorId)}">${nombre(g.pagadorId)}</strong> • ${(g.participantes||[]).map(pid=>`<span class="participante-chip">${nombre(pid)}</span>`).join('')}</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div class="gasto-monto">${fmt(g.monto)}</div>
+                  <button class="delete-btn" style="position:relative;top:0;right:0" data-gasto-id="${g.id}">✕</button>
+                </div>
+              </div>`).join('')}</div>`}`;
+
+    const tabResumen = gastos.length === 0
+      ? `<div class="empty-state"><span class="emoji">📋</span>Cargá gastos para ver el resumen</div>`
+      : `
+        ${total > 0 ? `<div class="total-box">
+          <div><div class="t-label">Total gastado</div><div class="per-person">${people.length} personas</div></div>
+          <div class="amount">${fmt(total)}</div>
+        </div>` : ''}
+        <div class="summary-box">
+          <h2>🧾 Detalle por gasto</h2>
+          ${gastos.map(g => {
+            const parte = g.monto / (g.participantes||[]).length;
+            return `<div class="gasto-resumen-card">
+              <div class="gasto-resumen-titulo">
+                <span class="gasto-resumen-nombre">${g.nombre}</span>
+                <span class="gasto-resumen-monto">${fmt(g.monto)}</span>
               </div>
-
-              <div class="result-side">
-                <div class="gauge-card">
-                  <div
-                    class="bottleneck-gauge"
-                    id="bottleneck-gauge"
-                    style="--gauge-value: 0%;"
-                  >
-                    <div class="gauge-inner">
-                      <strong id="bottleneck-percent">0%</strong>
-                      <span>Cuello</span>
-                    </div>
+              <div class="gasto-resumen-pagador">Pagó: <strong style="color:${color(g.pagadorId)}">${nombre(g.pagadorId)}</strong> — ${(g.participantes||[]).length} participantes</div>
+              ${(g.participantes||[]).map(pid => `
+                <div class="parte-row">
+                  <div class="parte-nombre">
+                    <span class="color-dot" style="background:${color(pid)}"></span>
+                    ${nombre(pid)}
+                    ${pid === g.pagadorId ? `<span class="parte-pago">pagó</span>` : ''}
                   </div>
-                </div>
-                <div class="confidence-pill" id="confidence-pill">Confianza media</div>
-              </div>
-            </div>
-
-            <div class="metric-grid">
-              <article class="metric-card">
-                <span>FPS promedio</span>
-                <strong id="avg-fps-value">0</strong>
-              </article>
-              <article class="metric-card">
-                <span>Rango estimado</span>
-                <strong id="range-value">0 - 0</strong>
-              </article>
-              <article class="metric-card">
-                <span>1% low</span>
-                <strong id="low-value">0</strong>
-              </article>
-              <article class="metric-card">
-                <span>Uso de GPU</span>
-                <strong id="gpu-usage-value">0%</strong>
-              </article>
-            </div>
-
-            <div class="chart-card">
-              <div class="chart-row">
-                <span>FPS promedio</span>
-                <div class="bar-track">
-                  <div id="avg-bar" class="bar-fill bar-fps"></div>
-                </div>
-              </div>
-              <div class="chart-row">
-                <span>1% low</span>
-                <div class="bar-track">
-                  <div id="low-bar" class="bar-fill bar-low"></div>
-                </div>
-              </div>
-              <div class="chart-row">
-                <span>Uso de GPU</span>
-                <div class="bar-track">
-                  <div id="gpu-bar" class="bar-fill bar-gpu"></div>
-                </div>
-              </div>
-            </div>
-
-            <p id="explanation-text" class="explanation"></p>
-          </article>
-
-          <article class="comparison-card">
-            <div class="section-head">
-              <div>
-                <p class="section-kicker">Comparacion</p>
-                <h2>CPU vs CPU</h2>
-              </div>
-            </div>
-
-            <div class="compare-controls">
-              <label>
-                CPU A
-                <select id="compare-cpu-a"></select>
-              </label>
-
-              <label>
-                CPU B
-                <select id="compare-cpu-b"></select>
-              </label>
-            </div>
-
-            <div id="compare-results" class="compare-results"></div>
-          </article>
+                  <div class="parte-monto">${fmt(parte)}</div>
+                </div>`).join('')}
+            </div>`;
+          }).join('')}
         </div>
-      </section>
-    </main>
+        <div class="summary-box">
+          <h2>📊 Balance total</h2>
+          ${people.map(p => {
+            const b = bal[p.id] || 0;
+            const c = b > 0.01 ? 'var(--accent3)' : b < -0.01 ? 'var(--accent)' : 'var(--muted)';
+            const l = b > 0.01 ? `le deben ${fmt(b)}` : b < -0.01 ? `debe ${fmt(Math.abs(b))}` : 'al día ✓';
+            return `<div class="summary-row">
+              <div class="summary-name"><span class="color-dot" style="background:${p.color}"></span>${p.nombre}</div>
+              <div style="font-family:'Fredoka One',cursive;color:${c}">${l}</div>
+            </div>`;
+          }).join('')}
+        </div>
+        ${trans.length > 0
+          ? `<div class="transfers-box"><h2>💸 ¿Quién le paga a quién?</h2>
+              ${trans.map(t => `<div class="transfer-row">
+                <span class="transfer-from">${nombre(Number(t.de))}</span>
+                <span class="transfer-arrow">→</span>
+                <span class="transfer-to">${nombre(Number(t.a))}</span>
+                <span class="transfer-amount">${fmt(t.monto)}</span>
+              </div>`).join('')}
+            </div>`
+          : `<div class="empty-state"><span class="emoji">✅</span>¡Todos al día!</div>`}`;
 
-    <script src="script.js"></script>
-  </body>
+    document.getElementById('app').innerHTML = `
+      <div class="user-bar">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="btn-back" id="btnBack">← Categorías</button>
+          <span class="cat-badge ${cat.clase}">${cat.emoji} ${cat.label}</span>
+        </div>
+        <div class="user-bar-right">
+          <img src="${currentUser.photoURL}">
+          <span class="user-name">${currentUser.displayName}</span>
+          <button class="btn-logout" id="btnLogout">Salir</button>
+        </div>
+      </div>
+      <div class="tabs">
+        <button class="tab-btn ${tabActual==='personas'?'active':''}" data-tab="personas">👤 Personas</button>
+        <button class="tab-btn ${tabActual==='gastos'?'active':''}" data-tab="gastos">🧾 Gastos</button>
+        <button class="tab-btn ${tabActual==='resumen'?'active':''}" data-tab="resumen">📋 Resumen</button>
+      </div>
+      <div>${tabActual==='personas'?tabPersonas:tabActual==='gastos'?tabGastos:tabResumen}</div>
+      ${people.length>0||gastos.length>0?`<div class="reset-btn-wrap"><button class="btn btn-danger" id="btnReset">🗑️ Borrar todo</button></div>`:''}`;
+
+    document.getElementById('btnBack').onclick   = volverCats;
+    document.getElementById('btnLogout').onclick = salir;
+    document.getElementById('btnReset')?.addEventListener('click', resetearTodo);
+    document.querySelectorAll('.tab-btn').forEach(b => b.onclick = () => { tabActual=b.dataset.tab; renderApp(); });
+    document.getElementById('btnAgregarPersona')?.addEventListener('click', agregarPersona);
+    document.getElementById('inputNombre')?.addEventListener('keydown', e => { if(e.key==='Enter') agregarPersona(); });
+    document.querySelectorAll('.delete-btn[data-id]').forEach(b => b.onclick = () => eliminarPersona(Number(b.dataset.id)));
+    document.querySelectorAll('[data-edit-nombre]').forEach(el => el.onclick = () => editarNombre(Number(el.dataset.editNombre), el));
+    document.querySelectorAll('[data-foto]').forEach(w => w.onclick = () => document.getElementById('file-'+w.dataset.foto)?.click());
+    document.querySelectorAll('[id^="file-"]').forEach(inp => {
+      inp.onchange = () => {
+        const id = Number(inp.id.replace('file-',''));
+        const file = inp.files[0]; if(!file) return;
+        const r = new FileReader();
+        r.onload = e => { const p=people.find(x=>x.id===id); if(p){p.foto=e.target.result; guardar(); renderApp();} };
+        r.readAsDataURL(file);
+      };
+    });
+    document.getElementById('btnAgregarGasto')?.addEventListener('click', agregarGasto);
+    document.querySelectorAll('.delete-btn[data-gasto-id]').forEach(b => b.onclick = () => eliminarGasto(Number(b.dataset.gastoId)));
+    document.querySelectorAll('.participante-check').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pid = Number(btn.dataset.pid);
+        estadoPart[pid] = !estadoPart[pid];
+        btn.classList.toggle('checked', estadoPart[pid]);
+      });
+    });
+  }
+</script>
+</body>
 </html>
